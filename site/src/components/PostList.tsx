@@ -1,4 +1,4 @@
-import React, {ReactText} from 'react';
+import React from 'react';
 import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
 import {connect} from "react-redux";

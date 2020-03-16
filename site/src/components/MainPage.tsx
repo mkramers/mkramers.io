@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from "./NavBar";
 import "./MainPage.css";
 import PostList from "./PostList";
-import {normalizePosts, Post} from "../types/Post";
+import {Post} from "../types/Post";
 import {useDispatch} from "react-redux";
 import {loadPosts} from "../store/posts/actions";
 import PostView from "./PostView";
