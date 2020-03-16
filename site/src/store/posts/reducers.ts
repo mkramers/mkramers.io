@@ -1,8 +1,9 @@
-import {LOAD_POSTS, PostActionTypes, PostsState, SELECT_POST} from './types'
+import {LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
 import {normalizePosts} from "../../types/Post";
 
 const initialState: PostsState = {
     posts: {byId: {}, allIds: []},
+    postsLoaded: false,
     selectedPostId: undefined
 };
 
@@ -13,10 +14,14 @@ export function postsReducer(
     switch (action.type) {
         case LOAD_POSTS:
             let normalizedPosts = normalizePosts(action.posts);
-
             return {
                 ...state,
                 posts: normalizedPosts
+            };
+        case POSTED_LOADED:
+            return {
+                ...state,
+                postsLoaded: action.loaded
             };
         case SELECT_POST:
             return {

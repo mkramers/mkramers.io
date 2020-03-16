@@ -1,43 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import NavBar from "./NavBar";
 import "./MainPage.css";
 import PostList from "./PostList";
-import {Post} from "../types/Post";
-import {useDispatch} from "react-redux";
-import {loadPosts} from "../store/posts/actions";
+import {connect} from "react-redux";
 import PostView from "./PostView";
+import {RootState} from "../store";
+import {thunkLoadPosts} from "../store/posts/thunks";
 
-function MainPage() {
-    const dispatch = useDispatch();
-    let posts: Post[] = [
-        {
-            id: 1,
-            author: "mkramers",
-            title: "First post",
-            content: "hello world"
-        },
-        {
-            id: 2,
-            author: "mkramers",
-            title: "Second post",
-            content: "goodbye website"
-        }
-    ];
-    dispatch(loadPosts(posts));
+type MainPageProps = {
+    loadPosts: () => void,
+    postsLoaded: Boolean
+};
+
+function MainPage({loadPosts, postsLoaded}: MainPageProps) {
+    useEffect(() => {
+        loadPosts();
+    }, [loadPosts]);
+
+    let content = <div className="page-main">
+        <div className='left-column'>
+            <PostList/>
+        </div>
+        <div className='right-column'>
+            <PostView/>
+        </div>
+    </div>;
 
     return (
         <div className="bp3-dark wrapper">
             <NavBar/>
-            <div className="page-main">
-                <div className='left-column'>
-                    <PostList/>
-                </div>
-                <div className='right-column'>
-                    <PostView/>
-                </div>
-            </div>
+            {postsLoaded && content}
+            {!postsLoaded && <div>Loading</div>}
         </div>
     );
 }
 
-export default MainPage;
+const mapState = (state: RootState) => ({
+    postsLoaded: state.main.postsLoaded
+});
+
+const mapDispatch = {
+    loadPosts: () => thunkLoadPosts()
+};
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(MainPage);
