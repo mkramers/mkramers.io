@@ -1,7 +1,8 @@
-import {Post} from "../../types/Post";
+import {NormalizedObjects, Post} from "../../types/Post";
+import {NormalizedSchema} from "normalizr";
 
 export interface PostsState {
-    posts: Post[],
+    posts: NormalizedObjects<Post>,
     selectedPostId?: number
 }
 

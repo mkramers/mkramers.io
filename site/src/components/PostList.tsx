@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactText} from 'react';
 import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
@@ -12,18 +12,10 @@ export interface PostListState {
 type PostListProps = {
     posts: Post[],
     selectPost: (id: number) => void
-
 };
 
 let transformPosts = (posts: Post[]) => {
-    let postNodes = posts.map((post, index) => {
-        let postTreeNode: ITreeNode = {
-            id: index,
-            icon: "document",
-            label: post.title
-        };
-        return postTreeNode;
-    });
+    let postNodes = posts.map((post) => getPostNode(post));
 
     const state: ITreeNode[] = [
         {
@@ -36,6 +28,15 @@ let transformPosts = (posts: Post[]) => {
         }
     ];
     return state;
+};
+
+let getPostNode = (post: Post) => {
+    let postTreeNode: ITreeNode = {
+        id: post.id,
+        icon: "document",
+        label: post.title
+    };
+    return postTreeNode;
 };
 
 export class PostList extends React.Component<PostListProps, PostListState> {
@@ -93,7 +94,7 @@ export class PostList extends React.Component<PostListProps, PostListState> {
 }
 
 const mapState = (state: RootState) => ({
-    posts: state.main.posts
+    posts: state.main.posts.allIds.map(id => state.main.posts.byId[id])
 });
 
 const mapDispatch = {

@@ -20,7 +20,7 @@ function PostView({post}: PostViewProps) {
 }
 
 const mapState = (state: RootState) => ({
-    post: state.main.selectedPostId !== undefined ? state.main.posts[state.main.selectedPostId] : undefined
+    post: state.main.selectedPostId !== undefined ? state.main.posts.byId[state.main.selectedPostId] : undefined
 });
 
 const mapDispatch = {
