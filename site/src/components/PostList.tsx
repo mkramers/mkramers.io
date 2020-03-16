@@ -3,13 +3,16 @@ import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
 import {RootState} from "../store";
+import {selectPost} from "../store/posts/actions";
 
 export interface PostListState {
     nodes: ITreeNode[];
 }
 
 type PostListProps = {
-    posts: Post[]
+    posts: Post[],
+    selectPost: (id: number) => void
+
 };
 
 let transformPosts = (posts: Post[]) => {
@@ -49,6 +52,8 @@ export class PostList extends React.Component<PostListProps, PostListState> {
         }
         nodeData.isSelected = originallySelected == null ? true : !originallySelected;
         this.setState(this.state);
+
+        this.props.selectPost(Number(nodeData.id));
     };
 
     handleNodeCollapse = (nodeData: ITreeNode) => {
@@ -92,6 +97,7 @@ const mapState = (state: RootState) => ({
 });
 
 const mapDispatch = {
+    selectPost: (id: number) => selectPost(id)
 };
 
 const connector = connect(mapState, mapDispatch);

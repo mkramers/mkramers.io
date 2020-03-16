@@ -5,6 +5,7 @@ import PostList from "./PostList";
 import {Post} from "../types/Post";
 import {useDispatch} from "react-redux";
 import {loadPosts} from "../store/posts/actions";
+import PostView from "./PostView";
 
 function MainPage() {
     const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function MainPage() {
                     <PostList/>
                 </div>
                 <div className='right-column'>
+                    <PostView/>
                 </div>
             </div>
         </div>

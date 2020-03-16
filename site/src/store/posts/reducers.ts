@@ -1,7 +1,8 @@
-import {PostActionTypes, PostsState, LOAD_POSTS} from './types'
+import {LOAD_POSTS, PostActionTypes, PostsState, SELECT_POST} from './types'
 
 const initialState: PostsState = {
-    posts: []
+    posts: [],
+    selectedPostId: undefined
 };
 
 export function postsReducer(
@@ -13,6 +14,11 @@ export function postsReducer(
             return {
                 ...state,
                 posts: action.payload
+            };
+        case SELECT_POST:
+            return {
+                ...state,
+                selectedPostId: action.postId
             };
         default:
             return state
