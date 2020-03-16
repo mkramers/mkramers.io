@@ -1,12 +1,42 @@
 import React from 'react';
-import {Classes, Icon, ITreeNode, Tooltip, Tree} from "@blueprintjs/core";
+import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
+import {Post} from "../types/Post";
 
-export interface ITreeExampleState {
+export interface PostListState {
     nodes: ITreeNode[];
 }
 
-export class PostList extends React.Component<ITreeExampleState> {
-    public state: ITreeExampleState = {nodes: INITIAL_STATE};
+type PostListProps = {
+    posts: Post[]
+};
+
+let transformPosts = (posts: Post[]) => {
+    let postNodes = posts.map((post, index) => {
+        let postTreeNode: ITreeNode = {
+            id: index,
+            icon: "document",
+            label: post.title
+        };
+        return postTreeNode;
+    });
+
+    const state: ITreeNode[] = [
+        {
+            id: 0,
+            hasCaret: true,
+            isExpanded: true,
+            icon: "folder-close",
+            label: "Blogs",
+            childNodes: postNodes
+        }
+    ];
+    return state;
+};
+
+export class PostList extends React.Component<PostListProps, PostListState> {
+    state: PostListState = {
+        nodes: transformPosts(this.props.posts)
+    };
 
     handleNodeClick = (nodeData: ITreeNode, _nodePath: number[], e: React.MouseEvent<HTMLElement>) => {
         const originallySelected = nodeData.isSelected;
@@ -50,51 +80,9 @@ export class PostList extends React.Component<ITreeExampleState> {
                     onNodeExpand={this.handleNodeExpand}
                     className={Classes.ELEVATION_0}
                 />
-                {/*{posts.map(post => {*/}
-                {/*    return (*/}
-                {/*        <div>post.content</div>*/}
-                {/*    )*/}
-                {/*})}*/}
             </div>
         );
     }
 }
-
-/* tslint:disable:object-literal-sort-keys so childNodes can come last */
-const INITIAL_STATE: ITreeNode[] = [
-    {
-        id: 0,
-        hasCaret: true,
-        isExpanded: true,
-        icon: "folder-close",
-        label: "Blogs",
-        childNodes: [
-            {
-                id: 0,
-                icon: "document",
-                label: "Mar 15, 2020"
-            }
-        ]
-    },
-    {
-        id: 1,
-        icon: "folder-close",
-        isExpanded: true,
-        label: "Releases",
-        childNodes: [
-            {
-                id: 1,
-                icon: "document",
-                label: "v1.0.0",
-                secondaryLabel: (
-                    <Tooltip content="An eye!">
-                        <Icon icon="eye-open"/>
-                    </Tooltip>
-                ),
-            },
-        ],
-    },
-];
-/* tslint:enable:object-literal-sort-keys */
 
 export default PostList;
