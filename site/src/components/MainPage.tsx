@@ -3,8 +3,11 @@ import NavBar from "./NavBar";
 import "./MainPage.css";
 import PostList from "./PostList";
 import {Post} from "../types/Post";
+import {useDispatch} from "react-redux";
+import {loadPosts} from "../store/posts/actions";
 
 function MainPage() {
+    const dispatch = useDispatch();
     let posts: Post[] = [
         {
             author: "mkramers",
@@ -17,13 +20,14 @@ function MainPage() {
             content: "goodbye website"
         }
     ];
+    dispatch(loadPosts(posts));
 
     return (
         <div className="bp3-dark wrapper">
             <NavBar/>
             <div className="page-main">
                 <div className='left-column'>
-                    <PostList posts={posts}/>
+                    <PostList/>
                 </div>
                 <div className='right-column'>
                 </div>

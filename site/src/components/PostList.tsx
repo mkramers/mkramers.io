@@ -1,6 +1,8 @@
 import React from 'react';
 import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
+import {connect} from "react-redux";
+import {RootState} from "../store";
 
 export interface PostListState {
     nodes: ITreeNode[];
@@ -85,4 +87,13 @@ export class PostList extends React.Component<PostListProps, PostListState> {
     }
 }
 
-export default PostList;
+const mapState = (state: RootState) => ({
+    posts: state.chat.posts
+});
+
+const mapDispatch = {
+};
+
+const connector = connect(mapState, mapDispatch);
+
+export default connector(PostList);
