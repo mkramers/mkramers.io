@@ -88,7 +88,7 @@ export class PostList extends React.Component<PostListProps, PostListState> {
 }
 
 const mapState = (state: RootState) => ({
-    posts: state.chat.posts
+    posts: state.main.posts
 });
 
 const mapDispatch = {

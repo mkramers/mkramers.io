@@ -1,27 +1,14 @@
-import {ChatActionTypes, ChatState, DELETE_MESSAGE, LOAD_POSTS, SEND_MESSAGE} from './types'
+import {PostActionTypes, PostsState, LOAD_POSTS} from './types'
 
-const initialState: ChatState = {
-    messages: [],
+const initialState: PostsState = {
     posts: []
 };
 
-export function chatReducer(
+export function postsReducer(
     state = initialState,
-    action: ChatActionTypes
-): ChatState {
+    action: PostActionTypes
+): PostsState {
     switch (action.type) {
-        case SEND_MESSAGE:
-            return {
-                ...state,
-                messages: [...state.messages, action.payload]
-            };
-        case DELETE_MESSAGE:
-            return {
-                ...state,
-                messages: state.messages.filter(
-                    message => message.timestamp !== action.meta.timestamp
-                )
-            };
         case LOAD_POSTS:
             return {
                 ...state,
