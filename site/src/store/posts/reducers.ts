@@ -13,7 +13,8 @@ export function postsReducer(
         case LOAD_POSTS:
             return {
                 ...state,
-                posts: action.payload
+                posts: action.posts,
+                selectedPostId: action.posts.length > 0 ? 0 : undefined
             };
         case SELECT_POST:
             return {

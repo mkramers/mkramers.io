@@ -10,7 +10,7 @@ export const SELECT_POST = 'SELECT_POST';
 
 interface LoadPostsAction {
     type: typeof LOAD_POSTS
-    payload: Post[]
+    posts: Post[]
 }
 
 interface SelectPostAction {

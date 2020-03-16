@@ -4,7 +4,7 @@ import {Post} from "../../types/Post";
 export function loadPosts(posts: Post[]): PostActionTypes {
     return {
         type: LOAD_POSTS,
-        payload: posts
+        posts: posts
     }
 }
 

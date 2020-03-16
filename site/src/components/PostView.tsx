@@ -1,9 +1,7 @@
 import React from 'react';
-import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
 import {RootState} from "../store";
-import {selectPost} from "../store/posts/actions";
 
 type PostViewProps = {
     post?: Post
