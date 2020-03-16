@@ -1,12 +1,9 @@
-import {Post} from "../../site/src/types/Post";
+const express = require('express');
+const graphqlHTTP = require('express-graphql');
+const { buildSchema } = require('graphql');
+const cors = require('cors');
 
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
-var cors = require('cors');
-
-// Construct a schema, using GraphQL schema language
-var schema = buildSchema(`
+let schema = buildSchema(`
   type Post {
     id: Int!
     author: String!
@@ -19,10 +16,9 @@ var schema = buildSchema(`
   }
 `);
 
-// The root provides a resolver function for each API endpoint
-var root = {
+let root = {
     getPosts: () => {
-        let posts = [
+        return [
             {
                 id: 1,
                 author: "mkramers",
@@ -36,11 +32,10 @@ var root = {
                 content: "goodbye website"
             }
         ];
-        return posts;
     },
 };
 
-var app = express();
+let app = express();
 app.use(cors({
     origin: 'http://localhost:3000'
 }));

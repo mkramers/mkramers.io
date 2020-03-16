@@ -19,9 +19,7 @@ export function normalizePosts(posts: Post[]) {
     const postsSchema = new schema.Array(postSchema);
 
     const normalizedData = normalizeResponse<Post>(posts, postsSchema);
-    let normalizedPosts = {byId: normalizedData.entities.posts, allIds: normalizedData.result};
-
-    return normalizedPosts;
+    return {byId: normalizedData.entities.posts, allIds: normalizedData.result};
 }
 
 export const normalizeResponse = <T>(

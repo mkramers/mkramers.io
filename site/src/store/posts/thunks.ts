@@ -2,7 +2,6 @@ import {Action} from 'redux'
 import {ThunkAction} from 'redux-thunk'
 import {RootState} from "../index";
 import {loadPosts, postsLoaded} from "./actions";
-import {Post} from "../../types/Post";
 import axios from "axios";
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
