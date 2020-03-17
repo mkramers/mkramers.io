@@ -2,7 +2,7 @@ import React from 'react';
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
 import {RootState} from "../store";
-import {Card, Elevation} from "@blueprintjs/core";
+import {Card, Elevation, NonIdealState} from "@blueprintjs/core";
 import "./PostView.css";
 
 type PostViewProps = {
@@ -11,7 +11,10 @@ type PostViewProps = {
 
 function PostView({post}: PostViewProps) {
     if (!post) {
-        return <div>No post selected</div>
+        return <NonIdealState
+            title="No post selected"
+            description={"Select a post from the left to view here"}
+        />
     }
     return (
         <div className="card-wrapper">
