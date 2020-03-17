@@ -1,17 +1,18 @@
-FROM mhart/alpine-node:6
+FROM node:13-alpine
 
-WORKDIR /app
+USER node
+
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+
+WORKDIR /home/node/app
+
 COPY package.json package-lock.json ./
+
+USER node
 
 RUN npm install
 
 COPY ./build .
-
-FROM mhart/alpine-node:slim-13
-
-WORKDIR /app
-COPY --from=0 /app .
-COPY . .
 
 EXPOSE 4000
 
