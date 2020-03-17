@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import PostView from "./PostView";
 import {RootState} from "../store";
 import {thunkLoadPosts} from "../store/posts/thunks";
+import {Spinner} from "@blueprintjs/core";
 
 type MainPageProps = {
     loadPosts: () => void,
@@ -30,7 +31,9 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
         <div className="bp3-dark wrapper">
             <NavBar/>
             {postsLoaded && content}
-            {!postsLoaded && <div>Loading</div>}
+            {!postsLoaded && <div className="busy-indicator-container">
+                <Spinner size={80} />
+            </div>}
         </div>
     );
 }

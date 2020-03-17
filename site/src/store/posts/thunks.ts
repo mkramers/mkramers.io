@@ -20,7 +20,6 @@ async function loadPostsApi() {
         baseURL: 'http://localhost:4000/graphql/',
         timeout: 1000,
     });
-
     let result = await instance.post('/', {"query": `{
   getPosts {
     id,
