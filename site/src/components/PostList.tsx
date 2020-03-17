@@ -80,15 +80,13 @@ export class PostList extends React.Component<PostListProps, PostListState> {
 
     render() {
         return (
-            <div>
-                <Tree
-                    contents={this.state.nodes}
-                    onNodeClick={this.handleNodeClick}
-                    onNodeCollapse={this.handleNodeCollapse}
-                    onNodeExpand={this.handleNodeExpand}
-                    className={Classes.ELEVATION_0}
-                />
-            </div>
+            <Tree
+                contents={this.state.nodes}
+                onNodeClick={this.handleNodeClick}
+                onNodeCollapse={this.handleNodeCollapse}
+                onNodeExpand={this.handleNodeExpand}
+                className={Classes.ELEVATION_0}
+            />
         );
     }
 }

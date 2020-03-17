@@ -5,7 +5,7 @@ function NavBar() {
     return (
         <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
-                <NavbarHeading>mkramers</NavbarHeading>
+                <NavbarHeading>mkramers.io</NavbarHeading>
                 <NavbarDivider/>
                 <Button className={Classes.MINIMAL} icon="home" text="Home"/>
             </NavbarGroup>
