@@ -1,5 +1,5 @@
 import {LOAD_POSTS, PostActionTypes, POSTED_LOADED, SELECT_POST} from './types'
-import {Post} from "../../types/Post";
+import {LoadStatus, Post} from "../../types/Post";
 
 export function loadPosts(posts: Post[]): PostActionTypes {
     return {
@@ -8,7 +8,7 @@ export function loadPosts(posts: Post[]): PostActionTypes {
     }
 }
 
-export function postsLoaded(loaded: Boolean): PostActionTypes {
+export function postsLoaded(loaded: LoadStatus): PostActionTypes {
     return {
         type: POSTED_LOADED,
         loaded: loaded

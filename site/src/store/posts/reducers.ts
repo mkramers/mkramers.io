@@ -1,9 +1,9 @@
 import {LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
-import {normalizePosts} from "../../types/Post";
+import {LoadStatus, normalizePosts} from "../../types/Post";
 
 const initialState: PostsState = {
     posts: {byId: {}, allIds: []},
-    postsLoaded: false,
+    postsLoaded: LoadStatus.PENDING,
     selectedPostId: undefined
 };
 

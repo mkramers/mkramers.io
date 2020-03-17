@@ -3,6 +3,7 @@ import {ThunkAction} from 'redux-thunk'
 import {RootState} from "../index";
 import {loadPosts, postsLoaded} from "./actions";
 import axios from "axios";
+import {LoadStatus} from "../../types/Post";
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
     RootState,
@@ -10,9 +11,23 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
     Action<string>>
 
 export const thunkLoadPosts = (): AppThunk => async dispatch => {
-    const posts = await loadPostsApi();
+    dispatch(postsLoaded(LoadStatus.PENDING));
+
+    let posts = null;
+    try {
+        posts = await loadPostsApi();
+    }
+    catch (e) {
+        console.log("ERRORRRR", e);
+    }
+
+    if (!posts) {
+        dispatch(postsLoaded(LoadStatus.FAILURE));
+        return;
+    }
+
     dispatch(loadPosts(posts));
-    dispatch(postsLoaded(true));
+    dispatch(postsLoaded(LoadStatus.SUCCESS));
 };
 
 async function loadPostsApi() {
@@ -20,6 +35,7 @@ async function loadPostsApi() {
         baseURL: 'http://localhost:4000/graphql/',
         timeout: 1000,
     });
+
     let result = await instance.post('/', {"query": `{
   getPosts {
     id,
@@ -28,6 +44,7 @@ async function loadPostsApi() {
     content
   }
 }`});
+
     let posts = result.data.data.getPosts;
     return Promise.resolve(posts);
 }

@@ -1,8 +1,8 @@
-import {NormalizedObjects, Post} from "../../types/Post";
+import {LoadStatus, NormalizedObjects, Post} from "../../types/Post";
 
 export interface PostsState {
     posts: NormalizedObjects<Post>,
-    postsLoaded: Boolean,
+    postsLoaded: LoadStatus,
     selectedPostId?: number
 }
 
@@ -17,7 +17,7 @@ interface LoadPostsAction {
 
 interface PostsLoadedAction {
     type: typeof POSTED_LOADED
-    loaded: Boolean
+    loaded: LoadStatus
 }
 
 interface SelectPostAction {
