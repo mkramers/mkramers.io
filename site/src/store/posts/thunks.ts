@@ -32,7 +32,8 @@ export const thunkLoadPosts = (): AppThunk => async dispatch => {
 
 async function loadPostsApi() {
     const instance = axios.create({
-        baseURL: 'http://localhost:4000/graphql/',
+        baseURL: 'https://demo.mkramers.io:4000/graphql/',
+        // baseURL: 'http://localhost:5000/graphql',
         timeout: 1000,
     });
 
