@@ -11,11 +11,14 @@ export interface PostListState {
 
 type PostListProps = {
     posts: Post[],
-    selectPost: (id: number) => void
+    selectPost: (id: number) => void,
+    selectedPostId: number | undefined
 };
 
-let transformPosts = (posts: Post[]) => {
+let transformPosts = (posts: Post[], selectedPostId: number | undefined) => {
     let postNodes = posts.map((post) => getPostNode(post));
+
+    postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
 
     const state: ITreeNode[] = [
         {
@@ -41,7 +44,7 @@ let getPostNode = (post: Post) => {
 
 export class PostList extends React.Component<PostListProps, PostListState> {
     state: PostListState = {
-        nodes: transformPosts(this.props.posts)
+        nodes: transformPosts(this.props.posts, this.props.selectedPostId)
     };
 
     handleNodeClick = (nodeData: ITreeNode, _nodePath: number[], e: React.MouseEvent<HTMLElement>) => {
@@ -92,7 +95,8 @@ export class PostList extends React.Component<PostListProps, PostListState> {
 }
 
 const mapState = (state: RootState) => ({
-    posts: state.main.posts.allIds.map(id => state.main.posts.byId[id])
+    posts: state.main.posts.allIds.map(id => state.main.posts.byId[id]),
+    selectedPostId: state.main.selectedPostId
 });
 
 const mapDispatch = {
