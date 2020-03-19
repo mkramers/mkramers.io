@@ -1,8 +1,8 @@
 import {normalize, NormalizedSchema, schema} from 'normalizr';
 
 export interface Post {
-    id: number,
-    author: string;
+    postId: number,
+    authorUserId: number;
     title: string;
     content: string;
 }
@@ -21,7 +21,7 @@ export enum LoadStatus {
 type entityKeys = "posts";
 
 export function normalizePosts(posts: Post[]) {
-    const postSchema: schema.Entity<Post> = new schema.Entity("posts", {}, {idAttribute: 'id'});
+    const postSchema: schema.Entity<Post> = new schema.Entity("posts", {}, {idAttribute: 'postId'});
     const postsSchema = new schema.Array(postSchema);
 
     const normalizedData = normalizeResponse<Post>(posts, postsSchema);

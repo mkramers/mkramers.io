@@ -32,7 +32,7 @@ let transformPosts = (posts: Post[]) => {
 
 let getPostNode = (post: Post) => {
     let postTreeNode: ITreeNode = {
-        id: post.id,
+        id: post.postId,
         icon: "document",
         label: post.title
     };

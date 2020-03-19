@@ -1,6 +1,8 @@
+import {postgraphile} from "postgraphile/build/postgraphile";
+
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const { buildSchema } = require('graphql');
+const {buildSchema} = require('graphql');
 const cors = require('cors');
 const morgan = require("morgan");
 
@@ -43,11 +45,13 @@ let port = 5000;
 let app = express();
 app.use(morgan('combined'));
 app.use(cors());
-app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-}));
+app.use('/',
+    postgraphile(process.env.DB_CONNECTION_STRING,
+        "public",
+        {
+            watchPg: true,
+            graphiql: true,
+            enhanceGraphiql: true,
+        }
+    ));
 app.listen(port);
-
-console.log('Running a GraphQL API server at http://localhost:4000/graphql');

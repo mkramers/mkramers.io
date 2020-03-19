@@ -16,8 +16,7 @@ export const thunkLoadPosts = (): AppThunk => async dispatch => {
     let posts = null;
     try {
         posts = await loadPostsApi();
-    }
-    catch (e) {
+    } catch (e) {
         console.log("ERRORRRR", e);
     }
 
@@ -32,20 +31,27 @@ export const thunkLoadPosts = (): AppThunk => async dispatch => {
 
 async function loadPostsApi() {
     const instance = axios.create({
-        baseURL: 'https://demo.mkramers.io:4000/graphql/',
-        // baseURL: 'http://localhost:5000/graphql',
+        // baseURL: 'https://demo.mkramers.io:4000/graphql/',
+        baseURL: 'http://localhost:5000',
         timeout: 1000,
     });
 
-    let result = await instance.post('/', {"query": `{
-  getPosts {
-    id,
-    author,
-    title,
-    content
-  }
-}`});
+    let result = await instance.post('/graphql', {"query": `{
+        allPosts {
+            edges {
+                  node {
+                        title
+                        content
+                        authorUserId
+                        postId
+                }
+            }
+        }
+    }`});
 
-    let posts = result.data.data.getPosts;
+    // @ts-ignore
+    let postsObject = result.data.data.allPosts.edges.map(edge => edge.node);
+    let posts = Object.keys(postsObject).map(key => postsObject[key]);
+
     return Promise.resolve(posts);
 }
