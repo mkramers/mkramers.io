@@ -2,7 +2,7 @@ import React from 'react';
 import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
-import {RootState} from "../store";
+import {State} from "../store";
 import {selectPost} from "../store/posts/actions";
 
 export interface PostListState {
@@ -94,7 +94,7 @@ export class PostList extends React.Component<PostListProps, PostListState> {
     }
 }
 
-const mapState = (state: RootState) => ({
+const mapState = (state: State) => ({
     posts: state.main.posts.allIds.map(id => state.main.posts.byId[id]),
     selectedPostId: state.main.selectedPostId
 });

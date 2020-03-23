@@ -1,7 +1,7 @@
 import React from 'react';
 import {Post} from "../types/Post";
 import {connect} from "react-redux";
-import {RootState} from "../store";
+import {State} from "../store";
 import {Card, Elevation, NonIdealState} from "@blueprintjs/core";
 import "./PostView.css";
 import getReactFromMarkdown from "../util/getReactElementFromMarkdown";
@@ -30,7 +30,7 @@ function PostView({post}: PostViewProps) {
     );
 }
 
-const mapState = (state: RootState) => ({
+const mapState = (state: State) => ({
     post: state.main.selectedPostId !== undefined ? state.main.posts.byId[state.main.selectedPostId] : undefined
 });
 

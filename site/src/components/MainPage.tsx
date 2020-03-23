@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
-import NavBar from "./NavBar";
 import "./MainPage.css";
 import PostList from "./PostList";
 import {connect} from "react-redux";
 import PostView from "./PostView";
-import {RootState} from "../store";
+import {State} from "../store";
 import {thunkLoadPosts} from "../store/posts/thunks";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import {LoadStatus} from "../types/Post";
@@ -34,7 +33,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
             break;
         case LoadStatus.PENDING:
             content = <div className="busy-indicator-container">
-                <Spinner size={80} />
+                <Spinner size={80}/>
             </div>;
             break;
         case LoadStatus.FAILURE:
@@ -50,14 +49,13 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
     }
 
     return (
-        <div className="bp3-dark wrapper">
-            <NavBar/>
+        <div>
             {content}
         </div>
     );
 }
 
-const mapState = (state: RootState) => ({
+const mapState = (state: State) => ({
     postsLoaded: state.main.postsLoaded
 });
 

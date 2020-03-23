@@ -1,12 +1,12 @@
 import {Action} from 'redux'
 import {ThunkAction} from 'redux-thunk'
-import {RootState} from "../index";
+import {State} from "../index";
 import {loadPosts, postsLoaded, selectPost} from "./actions";
 import axios from "axios";
 import {LoadStatus} from "../../types/Post";
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
-    RootState,
+    State,
     unknown,
     Action<string>>
 
