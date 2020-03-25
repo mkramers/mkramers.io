@@ -17,7 +17,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
     useEffect(() => {
         loadPosts();
     }, [loadPosts]);
-    
+
     let content;
 
     switch (postsLoaded) {
@@ -49,7 +49,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
     }
 
     return (
-        <div>
+        <div className="page-main">
             {content}
         </div>
     );
