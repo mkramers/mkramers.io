@@ -17,7 +17,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
     useEffect(() => {
         loadPosts();
     }, [loadPosts]);
-
+    
     let content;
 
     switch (postsLoaded) {
