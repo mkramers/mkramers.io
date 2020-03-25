@@ -9,6 +9,7 @@ interface AppProps {
 }
 
 function App({ history }: AppProps) {
+
     let store = configureStore({});
 
     //temp - allows store to be displayed in console for debugging

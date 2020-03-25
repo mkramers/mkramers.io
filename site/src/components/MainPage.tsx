@@ -15,17 +15,29 @@ type MainPageProps = {
 };
 
 function MainPage({loadPosts, postsLoaded}: MainPageProps) {
+    const {getTokenSilently, isAuthenticated, loginWithRedirect, isInitializing} = useAuth0();
+
+    useEffect(() => {
+        if (!isInitializing) {
+            if (isAuthenticated) {
+                getTokenSilently().then((token: string | undefined) => console.log("TOKEN: " + token));
+            } else {
+                loginWithRedirect({
+                    appState: {targetUrl: "/"}
+                });
+            }
+        }
+    }, []);
+
     useEffect(() => {
         loadPosts();
     }, [loadPosts]);
-
-    const {loading} = useAuth0();
 
     let busyContent = <div className="busy-indicator-container">
         <Spinner size={80}/>
     </div>;
 
-    if (loading) {
+    if (isInitializing) {
         return busyContent;
     }
 
