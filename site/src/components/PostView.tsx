@@ -23,7 +23,7 @@ function PostView({post}: PostViewProps) {
     return (
         <div className="card-wrapper">
             <Card interactive={false} elevation={Elevation.TWO}>
-                <h3><a href="#">{post.title}</a></h3>
+                <h3><a href="/#">{post.title}</a></h3>
                 {contentElement}
             </Card>
         </div>

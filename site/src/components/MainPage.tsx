@@ -24,10 +24,12 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
             } else {
                 loginWithRedirect({
                     appState: {targetUrl: "/"}
-                });
+                }).then();
             }
         }
-    }, []);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isInitializing, isAuthenticated]);
 
     useEffect(() => {
         loadPosts();
