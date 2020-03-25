@@ -7,6 +7,7 @@ import {State} from "../store";
 import {thunkLoadPosts} from "../store/posts/thunks";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import {LoadStatus} from "../types/Post";
+import {useAuth0} from "../auth0/react-auth0-spa";
 
 type MainPageProps = {
     loadPosts: () => void,
@@ -17,6 +18,16 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
     useEffect(() => {
         loadPosts();
     }, [loadPosts]);
+
+    const {loading} = useAuth0();
+
+    let busyContent = <div className="busy-indicator-container">
+        <Spinner size={80}/>
+    </div>;
+
+    if (loading) {
+        return busyContent;
+    }
 
     let content;
 
@@ -32,9 +43,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
             </div>;
             break;
         case LoadStatus.PENDING:
-            content = <div className="busy-indicator-container">
-                <Spinner size={80}/>
-            </div>;
+            content = busyContent;
             break;
         case LoadStatus.FAILURE:
             content = <div className="busy-indicator-container">
