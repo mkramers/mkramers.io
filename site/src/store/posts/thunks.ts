@@ -1,7 +1,7 @@
 import {loadPosts, postsLoaded, selectPost} from "./actions";
 import {AxiosInstance} from "axios";
-import {LoadStatus} from "../../types/Post";
 import {AppThunk} from "../AppThunk";
+import {LoadStatus} from "../LoadStatus";
 
 export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     dispatch(postsLoaded(LoadStatus.PENDING));
@@ -11,7 +11,7 @@ export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     try {
         posts = await loadPostsApi(api);
     } catch (e) {
-        console.log("ERRORRRR", e);
+        console.log("Error", e);
     }
 
     if (!posts) {

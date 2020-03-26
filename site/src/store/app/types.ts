@@ -1,5 +1,5 @@
 import {AxiosInstance} from "axios";
-import {LoadStatus} from "../../types/Post";
+import {LoadStatus} from "../LoadStatus";
 
 export interface AppState {
     api: AxiosInstance | undefined;

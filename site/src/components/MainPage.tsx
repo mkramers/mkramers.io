@@ -6,7 +6,7 @@ import PostView from "./PostView";
 import {State} from "../store";
 import {thunkLoadPosts} from "../store/posts/thunks";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
-import {LoadStatus} from "../types/Post";
+import {LoadStatus} from "../store/LoadStatus";
 
 type MainPageProps = {
     loadPosts: () => void,

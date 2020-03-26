@@ -1,4 +1,5 @@
-import {LoadStatus, NormalizedObjects, Post} from "../../types/Post";
+import {NormalizedObjects, Post} from "../../types/Post";
+import {LoadStatus} from "../LoadStatus";
 
 export interface PostsState {
     posts: NormalizedObjects<Post>,

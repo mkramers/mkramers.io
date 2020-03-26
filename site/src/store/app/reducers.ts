@@ -1,6 +1,6 @@
 import axios from "axios";
 import {API_INITIALIZED, AppActionTypes, AppState, INIT_API} from "./types";
-import {LoadStatus} from "../../types/Post";
+import {LoadStatus} from "../LoadStatus";
 
 const initialState: AppState = {
     api: undefined,
@@ -13,8 +13,6 @@ export function appReducer(
 ): AppState {
     switch (action.type) {
         case INIT_API:
-
-            console.log("TOKEN: " + action.token);
             const api = axios.create({
                 // baseURL: 'https://demo.mkramers.io:4000/graphql',
                 baseURL: 'http://localhost:5000',

@@ -25,12 +25,6 @@ window.store = store;
 // };
 
 const onAuthRedirectCallback = (redirectResult?: RedirectLoginResult) => {
-    console.log(
-        'auth0 onRedirectCallback called with redirectState %o',
-        redirectResult,
-        redirectResult?.appState
-    );
-
     // Clears auth0 query string parameters from url
     const targetUrl = redirectResult
     && redirectResult.appState
@@ -38,8 +32,6 @@ const onAuthRedirectCallback = (redirectResult?: RedirectLoginResult) => {
         ? redirectResult.appState.targetUrl
         : window.location.pathname;
 
-    console.log("PUSHING: ", targetUrl)
-    console.log("ORIGIN: ", window.location.origin)
     history.push(targetUrl)
 }
 

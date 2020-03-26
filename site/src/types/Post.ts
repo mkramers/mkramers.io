@@ -12,12 +12,6 @@ export interface NormalizedObjects<T> {
     allIds: number[];
 }
 
-export enum LoadStatus {
-    PENDING ,
-    SUCCESS,
-    FAILURE,
-}
-
 type entityKeys = "posts";
 
 export function normalizePosts(posts: Post[]) {

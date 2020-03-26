@@ -1,5 +1,5 @@
 import {API_INITIALIZED, AppActionTypes, INIT_API} from "./types";
-import {LoadStatus} from "../../types/Post";
+import {LoadStatus} from "../LoadStatus";
 
 export function initApi(token: any): AppActionTypes {
     return {
