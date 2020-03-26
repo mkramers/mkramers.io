@@ -95,8 +95,8 @@ export class PostList extends React.Component<PostListProps, PostListState> {
 }
 
 const mapState = (state: State) => ({
-    posts: state.main.posts.allIds.map(id => state.main.posts.byId[id]),
-    selectedPostId: state.main.selectedPostId
+    posts: state.posts.posts.allIds.map(id => state.posts.posts.byId[id]),
+    selectedPostId: state.posts.selectedPostId
 });
 
 const mapDispatch = {

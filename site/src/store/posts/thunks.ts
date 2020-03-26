@@ -2,20 +2,18 @@ import {Action} from 'redux'
 import {ThunkAction} from 'redux-thunk'
 import {State} from "../index";
 import {loadPosts, postsLoaded, selectPost} from "./actions";
-import axios from "axios";
+import {AxiosInstance} from "axios";
 import {LoadStatus} from "../../types/Post";
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
-    State,
-    unknown,
-    Action<string>>
+export type AppThunk = ThunkAction<void, State, unknown, Action<string>>
 
-export const thunkLoadPosts = (): AppThunk => async dispatch => {
+export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     dispatch(postsLoaded(LoadStatus.PENDING));
 
+    let api = getState().app.api;
     let posts = null;
     try {
-        posts = await loadPostsApi();
+        posts = await loadPostsApi(api);
     } catch (e) {
         console.log("ERRORRRR", e);
     }
@@ -34,14 +32,12 @@ export const thunkLoadPosts = (): AppThunk => async dispatch => {
     dispatch(postsLoaded(LoadStatus.SUCCESS));
 };
 
-async function loadPostsApi() {
-    const instance = axios.create({
-        // baseURL: 'https://demo.mkramers.io:4000/graphql',
-        baseURL: 'http://localhost:5000/graphql',
-        timeout: 1000,
-    });
+async function loadPostsApi(api: AxiosInstance | undefined) {
+    if (api === undefined) {
+        throw new Error("Api not initialized!");
+    }
 
-    let result = await instance.post('/graphql', {"query": `{
+    let result = await api.post('/graphql', {"query": `{
         allPosts {
             edges {
                   node {

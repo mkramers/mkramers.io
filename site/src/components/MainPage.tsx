@@ -15,33 +15,17 @@ type MainPageProps = {
 };
 
 function MainPage({loadPosts, postsLoaded}: MainPageProps) {
-    const {getTokenSilently, isAuthenticated, loginWithRedirect, isInitializing} = useAuth0();
+    const {isAuthenticated} = useAuth0();
 
     useEffect(() => {
-        if (!isInitializing) {
-            if (isAuthenticated) {
-                getTokenSilently().then((token: string | undefined) => console.log("TOKEN: " + token));
-            } else {
-                loginWithRedirect({
-                    appState: {targetUrl: "/"}
-                }).then();
-            }
+        if (isAuthenticated) {
+            loadPosts();
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isInitializing, isAuthenticated]);
-
-    useEffect(() => {
-        loadPosts();
     }, [loadPosts]);
 
     let busyContent = <div className="busy-indicator-container">
         <Spinner size={80}/>
     </div>;
-
-    if (isInitializing) {
-        return busyContent;
-    }
 
     let content;
 
@@ -79,11 +63,11 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
 }
 
 const mapState = (state: State) => ({
-    postsLoaded: state.main.postsLoaded
+    postsLoaded: state.posts.postsLoaded
 });
 
 const mapDispatch = {
-    loadPosts: () => thunkLoadPosts()
+    loadPosts: () => thunkLoadPosts(),
 };
 
 const connector = connect(mapState, mapDispatch);

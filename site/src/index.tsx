@@ -10,6 +10,10 @@ import config from "./auth_config.json";
 
 const store = configureStore();
 
+//temp - allows store to be displayed in console for debugging
+// @ts-ignore
+window.store = store;
+
 // A function that routes the user to the right place
 // after login
 const onRedirectCallback = (appState: any) => {
