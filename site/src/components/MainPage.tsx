@@ -7,25 +7,27 @@ import {State} from "../store";
 import {thunkLoadPosts} from "../store/posts/thunks";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import {LoadStatus} from "../types/Post";
-import {useAuth0} from "../auth0/react-auth0-spa";
 
 type MainPageProps = {
     loadPosts: () => void,
+    apiInitialized: LoadStatus
     postsLoaded: LoadStatus
 };
 
-function MainPage({loadPosts, postsLoaded}: MainPageProps) {
-    const {isAuthenticated} = useAuth0();
-
+function MainPage({loadPosts, apiInitialized, postsLoaded}: MainPageProps) {
     useEffect(() => {
-        if (isAuthenticated) {
+        if (apiInitialized === LoadStatus.SUCCESS) {
             loadPosts();
         }
-    }, [loadPosts]);
+    }, [apiInitialized]);
 
     let busyContent = <div className="busy-indicator-container">
         <Spinner size={80}/>
     </div>;
+
+    if (apiInitialized === LoadStatus.PENDING) {
+        return <div>Please log in</div>
+    }
 
     let content;
 
@@ -63,6 +65,7 @@ function MainPage({loadPosts, postsLoaded}: MainPageProps) {
 }
 
 const mapState = (state: State) => ({
+    apiInitialized: state.app.apiInitialized,
     postsLoaded: state.posts.postsLoaded
 });
 

@@ -14,25 +14,44 @@ const store = configureStore();
 // @ts-ignore
 window.store = store;
 
-// A function that routes the user to the right place
-// after login
-const onRedirectCallback = (appState: any) => {
-    history.push(
-        appState && appState.targetUrl
-            ? appState.targetUrl
-            : window.location.pathname
+// // A function that routes the user to the right place
+// // after login
+// const onRedirectCallback = (appState: any) => {
+//     history.push(
+//         appState && appState.targetUrl
+//             ? appState.targetUrl
+//             : window.location.pathname
+//     );
+// };
+
+const onAuthRedirectCallback = (redirectResult?: RedirectLoginResult) => {
+    console.log(
+        'auth0 onRedirectCallback called with redirectState %o',
+        redirectResult,
+        redirectResult?.appState
     );
-};
+
+    // Clears auth0 query string parameters from url
+    const targetUrl = redirectResult
+    && redirectResult.appState
+    && redirectResult.appState.targetUrl
+        ? redirectResult.appState.targetUrl
+        : window.location.pathname;
+
+    console.log("PUSHING: ", targetUrl)
+    console.log("ORIGIN: ", window.location.origin)
+    history.push(targetUrl)
+}
 
 const render = () => {
     ReactDOM.render(
         <AppContainer>
             <Auth0Provider
                 domain={config.domain}
+                audience={config.audience}
                 client_id={config.clientId}
                 redirect_uri={window.location.origin}
-                // @ts-ignore
-                onRedirectCallback={onRedirectCallback}
+                onRedirectCallback={onAuthRedirectCallback}
             >
                 <Provider store={store}>
                     <App history={history}/>

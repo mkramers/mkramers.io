@@ -1,41 +1,30 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {History} from 'history'
 import {ConnectedRouter} from "connected-react-router";
 import routes from "./routes";
 import {useAuth0} from "./auth0/react-auth0-spa";
 import {connect} from "react-redux";
-import {State} from "./store";
-import {initApi} from "./store/app/actions";
+import {thunkInitApi} from "./store/app/thunks";
 
 interface AppProps {
     history: History;
-    initApi: any
+    initApi:  (token: string | undefined) => void,
 }
 
 function App({history, initApi}: AppProps) {
-    const [isAppInitialized, setIsAppInitialized] = useState(false);
 
-    const {getTokenSilently, isAuthenticated, loginWithRedirect, isInitializing} = useAuth0();
+    const {getTokenSilently, isAuthenticated, isInitializing} = useAuth0();
 
     useEffect(() => {
             if (!isInitializing) {
                 if (isAuthenticated) {
-                    getTokenSilently().then((token: string | undefined) => {
+                    getTokenSilently().then((token) => {
                         initApi(token);
-                        setIsAppInitialized(true);
                     });
-                } else {
-                    loginWithRedirect({
-                        appState: {targetUrl: "/"}
-                    }).then(() => setIsAppInitialized(true));
                 }
             }
         }, [isInitializing]
     );
-
-    if (!isAppInitialized) {
-        return <div>NO</div>;
-    }
 
     return (
         <ConnectedRouter history={history}>
@@ -44,12 +33,11 @@ function App({history, initApi}: AppProps) {
     );
 }
 
-const mapState = (state: State) => ({
-    postsLoaded: state.posts.postsLoaded
+const mapState = () => ({
 });
 
 const mapDispatch = {
-    initApi
+    initApi: (token: string | undefined) => thunkInitApi(token)
 };
 
 const connector = connect(mapState, mapDispatch);

@@ -1,11 +1,7 @@
-import {Action} from 'redux'
-import {ThunkAction} from 'redux-thunk'
-import {State} from "../index";
 import {loadPosts, postsLoaded, selectPost} from "./actions";
 import {AxiosInstance} from "axios";
 import {LoadStatus} from "../../types/Post";
-
-export type AppThunk = ThunkAction<void, State, unknown, Action<string>>
+import {AppThunk} from "../AppThunk";
 
 export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     dispatch(postsLoaded(LoadStatus.PENDING));

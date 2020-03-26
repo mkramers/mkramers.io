@@ -1,4 +1,5 @@
 {
   "domain": "mkramers-io.auth0.com",
-  "clientId": "xjDTb25Ng2Wx7RqWrfuiJESu4B4luwSF"
+  "clientId": "xjDTb25Ng2Wx7RqWrfuiJESu4B4luwSF",
+  "audience": "api.mkramers.io"
 }
