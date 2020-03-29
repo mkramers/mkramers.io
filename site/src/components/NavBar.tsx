@@ -2,13 +2,14 @@ import {Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHe
 import React from "react";
 import {useAuth0} from "../auth0/react-auth0-spa";
 import {connect} from "react-redux";
-import { push } from 'connected-react-router'
+import {push} from 'connected-react-router'
 
 type NavBar = {
+    goHome: () => void,
     createPost: () => void,
 };
 
-function NavBar({createPost}: NavBar) {
+function NavBar({goHome, createPost}: NavBar) {
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
     return (
@@ -16,12 +17,14 @@ function NavBar({createPost}: NavBar) {
             <NavbarGroup align={Alignment.LEFT}>
                 <NavbarHeading>mkramers.io</NavbarHeading>
                 <NavbarDivider/>
-                <Button className={Classes.MINIMAL} icon="home" text="Home"/>
+                <Button className={Classes.MINIMAL} icon="home" text="Home"
+                        onClick={goHome}/>
                 {isAuthenticated &&
                 (
                     <NavbarGroup align={Alignment.RIGHT}>
                         <NavbarDivider/>
-                        < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post" onClick={createPost}/>
+                        < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
+                                 onClick={createPost}/>
                     </NavbarGroup>
                 )}
             </NavbarGroup>
@@ -38,10 +41,10 @@ function NavBar({createPost}: NavBar) {
     );
 }
 
-const mapState = () => ({
-});
+const mapState = () => ({});
 
 const mapDispatch = {
+    goHome: () => push('/'),
     createPost: () => push('/create')
 };
 
