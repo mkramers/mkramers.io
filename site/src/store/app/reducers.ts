@@ -14,8 +14,8 @@ export function appReducer(
     switch (action.type) {
         case INIT_API:
             const api = axios.create({
-                baseURL: 'https://demo.mkramers.io:4000',
-                // baseURL: 'http://localhost:5000',
+                // baseURL: 'https://demo.mkramers.io:4000',
+                baseURL: 'http://localhost:5000',
                 headers: {
                     Authorization: `Bearer ${action.token}`
                 },

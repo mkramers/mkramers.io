@@ -1,4 +1,4 @@
-import {LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
+import {CREATE_POST, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
 import {normalizePosts} from "../../types/Post";
 import {LoadStatus} from "../LoadStatus";
 
@@ -28,6 +28,19 @@ export function postsReducer(
             return {
                 ...state,
                 selectedPostId: action.postId
+            };
+        case CREATE_POST:
+            let post = action.post;
+            return {
+                ...state,
+                posts: {
+                    byId:
+                        {
+                            ...state.posts.byId,
+                            [post.postId]: post
+                        },
+                    allIds: state.posts.allIds.concat(post.postId)
+                }
             };
         default:
             return state

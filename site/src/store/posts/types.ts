@@ -10,6 +10,7 @@ export interface PostsState {
 export const LOAD_POSTS = 'LOAD_POSTS';
 export const POSTED_LOADED = 'POSTED_LOADED';
 export const SELECT_POST = 'SELECT_POST';
+export const CREATE_POST = 'CREATE_POST';
 
 interface LoadPostsAction {
     type: typeof LOAD_POSTS
@@ -26,4 +27,9 @@ interface SelectPostAction {
     postId: number
 }
 
-export type PostActionTypes = LoadPostsAction | SelectPostAction | PostsLoadedAction;
+interface CreatePostAction {
+    type: typeof CREATE_POST
+    post: Post
+}
+
+export type PostActionTypes = LoadPostsAction | SelectPostAction | PostsLoadedAction | CreatePostAction;
