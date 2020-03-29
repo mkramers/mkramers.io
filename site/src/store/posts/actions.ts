@@ -1,4 +1,4 @@
-import {CREATE_POST, DELETE_POSTS, LOAD_POSTS, Post, PostActionTypes, POSTED_LOADED, SELECT_POST} from './types'
+import {CREATE_POST, DELETE_POSTS_BY_ID, LOAD_POSTS, Post, PostActionTypes, POSTED_LOADED, SELECT_POST} from './types'
 import {LoadStatus} from "../util/LoadStatus";
 
 export function loadPosts(posts: Post[]): PostActionTypes {
@@ -29,9 +29,9 @@ export function createPost(post: Post): PostActionTypes {
     }
 }
 
-export function deletePosts(posts: Post[]): PostActionTypes {
+export function deletePostsById(postIds: number[]): PostActionTypes {
     return {
-        type: DELETE_POSTS,
-        posts: posts
+        type: DELETE_POSTS_BY_ID,
+        postIds
     }
 }

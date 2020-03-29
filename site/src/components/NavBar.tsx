@@ -16,19 +16,18 @@ function NavBar({goHome, createPost, editPosts}: NavBar) {
     return (
         <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
-                <NavbarHeading>mkramers.io</NavbarHeading>
-                <NavbarDivider/>
-                <Button className={Classes.MINIMAL} icon="home" text="Home"
-                        onClick={goHome}/>
+                <NavbarHeading><a onClick={() => goHome()}>mkramers.io</a></NavbarHeading>
                 {isAuthenticated &&
                 (
+                    <>
+                    <NavbarDivider/>
                     <NavbarGroup align={Alignment.RIGHT}>
-                        <NavbarDivider/>
                         < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
                                  onClick={createPost}/>
                         < Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
                                  onClick={editPosts}/>
                     </NavbarGroup>
+                    </>
                 )}
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>

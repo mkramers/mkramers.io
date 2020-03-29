@@ -1,4 +1,4 @@
-import {CREATE_POST, DELETE_POSTS, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
+import {CREATE_POST, DELETE_POSTS_BY_ID, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
 import {LoadStatus} from "../util/LoadStatus";
 import {normalizePosts} from "./normalizePosts";
 
@@ -42,8 +42,8 @@ export function postsReducer(
                     allIds: state.posts.allIds.concat(post.postId)
                 }
             };
-        case DELETE_POSTS:
-            let postIds = action.posts.map(post => post.postId);
+        case DELETE_POSTS_BY_ID:
+            let postIds = action.postIds;
 
             const byId = {
                 ...state.posts.byId
