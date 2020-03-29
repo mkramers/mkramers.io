@@ -1,25 +1,17 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import "./MainPage.css";
 import {connect} from "react-redux";
 import PostView from "./PostView";
 import {State} from "../store";
-import {thunkLoadPosts} from "../store/posts/thunks";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import {LoadStatus} from "../store/LoadStatus";
 
 type MainPageProps = {
-    loadPosts: () => void,
     apiInitialized: LoadStatus
     postsLoaded: LoadStatus
 };
 
-function MainPage({loadPosts, apiInitialized, postsLoaded}: MainPageProps) {
-    useEffect(() => {
-        if (apiInitialized === LoadStatus.SUCCESS) {
-            loadPosts();
-        }
-    }, [apiInitialized]);
-
+function MainPage({apiInitialized, postsLoaded}: MainPageProps) {
     let busyContent = <Spinner size={80}/>;
 
     let content;
@@ -58,7 +50,6 @@ const mapState = (state: State) => ({
 });
 
 const mapDispatch = {
-    loadPosts: () => thunkLoadPosts(),
 };
 
 const connector = connect(mapState, mapDispatch);

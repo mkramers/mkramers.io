@@ -8,13 +8,15 @@ import {thunkInitApi} from "./store/app/thunks";
 import NavBar from "./components/NavBar";
 import "./App.css"
 import PostList from "./components/PostList";
+import {thunkLoadPosts} from "./store/posts/thunks";
 
 interface AppProps {
     history: History;
     initApi: (token: string | undefined) => void,
+    loadPosts: () => void,
 }
 
-function App({history, initApi}: AppProps) {
+function App({history, initApi, loadPosts}: AppProps) {
 
     const {getTokenSilently, isAuthenticated, isInitializing} = useAuth0();
 
@@ -23,6 +25,7 @@ function App({history, initApi}: AppProps) {
                 if (isAuthenticated) {
                     getTokenSilently().then((token) => {
                         initApi(token);
+                        loadPosts();
                     });
                 }
             }
@@ -49,7 +52,8 @@ function App({history, initApi}: AppProps) {
 const mapState = () => ({});
 
 const mapDispatch = {
-    initApi: (token: string | undefined) => thunkInitApi(token)
+    initApi: (token: string | undefined) => thunkInitApi(token),
+    loadPosts: () => thunkLoadPosts(),
 };
 
 const connector = connect(mapState, mapDispatch);
