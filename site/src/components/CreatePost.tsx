@@ -7,7 +7,7 @@ type CreatePostProps = {
 
 function CreatePost({}: CreatePostProps) {
     return (
-        <div className="page-main">
+        <div className="main">
             Create!
         </div>
     );

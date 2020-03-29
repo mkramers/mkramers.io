@@ -20,36 +20,36 @@ function MainPage({loadPosts, apiInitialized, postsLoaded}: MainPageProps) {
         }
     }, [apiInitialized]);
 
-    let busyContent = <div className="busy-indicator-container">
-        <Spinner size={80}/>
-    </div>;
-
-    if (apiInitialized === LoadStatus.PENDING) {
-        return <div>Please log in</div>
-    }
+    let busyContent = <Spinner size={80}/>;
 
     let content;
-
-    switch (postsLoaded) {
-        case LoadStatus.SUCCESS:
-            content = <PostView/>;
-            break;
-        case LoadStatus.PENDING:
-            content = busyContent;
-            break;
-        case LoadStatus.FAILURE:
-            content = <div className="busy-indicator-container">
-                <NonIdealState
+    if (apiInitialized === LoadStatus.PENDING) {
+        content = busyContent;
+    }
+    else {
+        switch (postsLoaded) {
+            case LoadStatus.SUCCESS:
+                content = <PostView/>;
+                break;
+            case LoadStatus.PENDING:
+                content = busyContent;
+                break;
+            case LoadStatus.FAILURE:
+                content = <NonIdealState
                     title="Error"
                     description={"Failed to connect to api!"}
-                />
-            </div>;
-            break;
-        default:
-            throw new Error("LoadStatus not supported");
+                />;
+                break;
+            default:
+                throw new Error("LoadStatus not supported");
+        }
     }
 
-    return content;
+    return (
+        <div className="main">
+            {content}
+        </div>
+    );
 }
 
 const mapState = (state: State) => ({
