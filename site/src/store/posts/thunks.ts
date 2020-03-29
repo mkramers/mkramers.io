@@ -1,4 +1,4 @@
-import {createPost, loadPosts, postsLoaded, selectPost} from "./actions";
+import {createPost, deletePosts, loadPosts, postsLoaded, selectPost} from "./actions";
 import {AxiosInstance} from "axios";
 import {AppThunk} from "../util/AppThunk";
 import {LoadStatus} from "../util/LoadStatus";
@@ -34,7 +34,8 @@ async function loadPostsApi(api: AxiosInstance | undefined) {
         throw new Error("Api not initialized!");
     }
 
-    let result = await api.post('/graphql', {"query": `
+    let result = await api.post('/graphql', {
+        "query": `
     query Query {
         allPosts {
             edges {
@@ -46,7 +47,8 @@ async function loadPostsApi(api: AxiosInstance | undefined) {
                 }
             }
         }
-    }`});
+    }`
+    });
 
     let postsObject = result.data.data.allPosts.edges.map((edge: any) => edge.node);
     let posts = Object.keys(postsObject).map(key => postsObject[key]);
@@ -74,7 +76,8 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
         throw new Error("Api not initialized!");
     }
 
-    let result = await api.post('/graphql', {"query": `
+    let result = await api.post('/graphql', {
+        "query": `
         mutation MyMutation {
            createPost(input: {post: {authorUserId: 1, title: "${post.title}", content: "${post.content}"}}) {
                clientMutationId
@@ -85,8 +88,39 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
                   title
                }
            }
-    }`});
+    }`
+    });
 
     let createPost = result.data.data.createPost.post;
     return createPost;
 }
+
+
+export const deletePostsThunk = (posts: Post[]): AppThunk => async (dispatch, getState) => {
+    let api = getState().app.api;
+    if (api === undefined) {
+        throw new Error("Api not initialized!");
+    }
+
+    let deleteByPostIdQueries = posts.map(post => {
+        return `postId_${post.postId}: deletePostByPostId(input: {postId: ${post.postId}}) {
+                clientMutationId
+                deletedPostId
+            }\n`
+    });
+    let deletePostsQuery = `
+    mutation deleteMultiple {
+        ${deleteByPostIdQueries}
+     }`;
+
+    try {
+        await api.post('/graphql', {
+            "query": deletePostsQuery
+        });
+    } catch (e) {
+        console.log("Error", e);
+        return;
+    }
+
+    dispatch(deletePosts(posts));
+};

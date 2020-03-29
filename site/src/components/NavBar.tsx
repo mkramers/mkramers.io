@@ -7,9 +7,10 @@ import {push} from 'connected-react-router'
 type NavBar = {
     goHome: () => void,
     createPost: () => void,
+    editPosts: () => void
 };
 
-function NavBar({goHome, createPost}: NavBar) {
+function NavBar({goHome, createPost, editPosts}: NavBar) {
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
     return (
@@ -25,6 +26,8 @@ function NavBar({goHome, createPost}: NavBar) {
                         <NavbarDivider/>
                         < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
                                  onClick={createPost}/>
+                        < Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
+                                 onClick={editPosts}/>
                     </NavbarGroup>
                 )}
             </NavbarGroup>
@@ -45,7 +48,8 @@ const mapState = () => ({});
 
 const mapDispatch = {
     goHome: () => push('/'),
-    createPost: () => push('/create')
+    createPost: () => push('/create'),
+    editPosts: () => push('/editPosts')
 };
 
 const connector = connect(mapState, mapDispatch);

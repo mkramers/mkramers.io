@@ -18,6 +18,7 @@ export const LOAD_POSTS = 'LOAD_POSTS';
 export const POSTED_LOADED = 'POSTED_LOADED';
 export const SELECT_POST = 'SELECT_POST';
 export const CREATE_POST = 'CREATE_POST';
+export const DELETE_POSTS = 'DELETE_POSTS';
 
 interface LoadPostsAction {
     type: typeof LOAD_POSTS
@@ -39,4 +40,9 @@ interface CreatePostAction {
     post: Post
 }
 
-export type PostActionTypes = LoadPostsAction | SelectPostAction | PostsLoadedAction | CreatePostAction;
+interface DeletePostsAction {
+    type: typeof DELETE_POSTS
+    posts: Post[]
+}
+
+export type PostActionTypes = LoadPostsAction | SelectPostAction | PostsLoadedAction | CreatePostAction | DeletePostsAction;

@@ -1,4 +1,4 @@
-import {CREATE_POST, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
+import {CREATE_POST, DELETE_POSTS, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
 import {LoadStatus} from "../util/LoadStatus";
 import {normalizePosts} from "./normalizePosts";
 
@@ -40,6 +40,24 @@ export function postsReducer(
                             [post.postId]: post
                         },
                     allIds: state.posts.allIds.concat(post.postId)
+                }
+            };
+        case DELETE_POSTS:
+            let postIds = action.posts.map(post => post.postId);
+
+            const byId = {
+                ...state.posts.byId
+            };
+            postIds.forEach(postId => {
+                delete byId[postId];
+            });
+            let allIds = state.posts.allIds.filter(id => !postIds.includes(id));
+
+            return {
+                ...state,
+                posts: {
+                    allIds,
+                    byId
                 }
             };
         default:

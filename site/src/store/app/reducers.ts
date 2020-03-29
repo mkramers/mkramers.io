@@ -19,7 +19,7 @@ export function appReducer(
                 headers: {
                     Authorization: `Bearer ${action.token}`
                 },
-                timeout: 1000,
+                timeout: 3000,
             });
 
             return {
