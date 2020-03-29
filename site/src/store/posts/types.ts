@@ -1,5 +1,12 @@
-import {NormalizedObjects, Post} from "../../types/Post";
 import {LoadStatus} from "../LoadStatus";
+import {NormalizedObjects} from "../util/NormalizedObject";
+
+export interface Post {
+    postId: number,
+    authorUserId: number;
+    title: string;
+    content: string;
+}
 
 export interface PostsState {
     posts: NormalizedObjects<Post>,

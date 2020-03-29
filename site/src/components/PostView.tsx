@@ -1,10 +1,10 @@
 import React from 'react';
-import {Post} from "../types/Post";
 import {connect} from "react-redux";
 import {State} from "../store";
 import {Card, Elevation, NonIdealState} from "@blueprintjs/core";
 import "./PostView.css";
 import getReactFromMarkdown from "../util/getReactElementFromMarkdown";
+import {Post} from "../store/posts/types";
 
 type PostViewProps = {
     post?: Post

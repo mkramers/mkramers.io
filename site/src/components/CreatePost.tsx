@@ -4,7 +4,7 @@ import "./CreatePost.css";
 import {Button, Card, Elevation, InputGroup, TextArea} from "@blueprintjs/core";
 import {Intent} from "@blueprintjs/core/lib/esm/common/intent";
 import {createPostThunk} from "../store/posts/thunks";
-import {Post} from "../types/Post";
+import {Post} from "../store/posts/types";
 
 type CreatePostProps = {
     createPost: (post: Post) => void

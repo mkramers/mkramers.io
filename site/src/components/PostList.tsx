@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
-import {Post} from "../types/Post";
 import {connect} from "react-redux";
 import {State} from "../store";
 import {selectPost} from "../store/posts/actions";
+import {Post} from "../store/posts/types";
 
 type PostListProps = {
     posts: Post[],

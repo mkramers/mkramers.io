@@ -1,16 +1,5 @@
-import {normalize, NormalizedSchema, schema} from 'normalizr';
-
-export interface Post {
-    postId: number,
-    authorUserId: number;
-    title: string;
-    content: string;
-}
-
-export interface NormalizedObjects<T> {
-    byId: { [key: string]: T };
-    allIds: number[];
-}
+import {normalize, NormalizedSchema, schema} from "normalizr";
+import {Post} from "./types";
 
 type entityKeys = "posts";
 

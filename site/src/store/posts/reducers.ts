@@ -1,6 +1,6 @@
 import {CREATE_POST, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
-import {normalizePosts} from "../../types/Post";
 import {LoadStatus} from "../LoadStatus";
+import {normalizePosts} from "./normalizePosts";
 
 const initialState: PostsState = {
     posts: {byId: {}, allIds: []},
