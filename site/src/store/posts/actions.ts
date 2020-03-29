@@ -1,5 +1,5 @@
 import {CREATE_POST, LOAD_POSTS, Post, PostActionTypes, POSTED_LOADED, SELECT_POST} from './types'
-import {LoadStatus} from "../LoadStatus";
+import {LoadStatus} from "../util/LoadStatus";
 
 export function loadPosts(posts: Post[]): PostActionTypes {
     return {

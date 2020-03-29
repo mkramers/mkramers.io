@@ -1,6 +1,6 @@
 import axios from "axios";
 import {API_INITIALIZED, AppActionTypes, AppState, INIT_API} from "./types";
-import {LoadStatus} from "../LoadStatus";
+import {LoadStatus} from "../util/LoadStatus";
 
 const initialState: AppState = {
     api: undefined,

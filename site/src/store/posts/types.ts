@@ -1,4 +1,4 @@
-import {LoadStatus} from "../LoadStatus";
+import {LoadStatus} from "../util/LoadStatus";
 import {NormalizedObjects} from "../util/NormalizedObject";
 
 export interface Post {

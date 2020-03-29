@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import {History} from 'history'
 import {ConnectedRouter} from "connected-react-router";
-import routes from "./routes";
-import {useAuth0} from "./auth0/react-auth0-spa";
+import routes from "../routes";
+import {useAuth0} from "../auth0/react-auth0-spa";
 import {connect} from "react-redux";
-import {thunkInitApi} from "./store/app/thunks";
-import NavBar from "./components/NavBar";
+import {thunkInitApi} from "../store/app/thunks";
+import NavBar from "./NavBar";
 import "./App.css"
-import PostList from "./components/PostList";
-import {thunkLoadPosts} from "./store/posts/thunks";
+import PostList from "./PostList";
+import {thunkLoadPosts} from "../store/posts/thunks";
 
 interface AppProps {
     history: History;

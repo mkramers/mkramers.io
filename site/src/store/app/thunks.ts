@@ -1,6 +1,6 @@
-import {AppThunk} from "../AppThunk";
+import {AppThunk} from "../util/AppThunk";
 import {apiInitialized, initApi} from "./actions";
-import {LoadStatus} from "../LoadStatus";
+import {LoadStatus} from "../util/LoadStatus";
 
 export const thunkInitApi = (token: string | undefined): AppThunk => async (dispatch) => {
     dispatch(apiInitialized(LoadStatus.PENDING));

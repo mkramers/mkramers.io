@@ -1,12 +1,12 @@
 import React from 'react';
 import {AppContainer} from 'react-hot-loader'
 import ReactDOM from 'react-dom';
-import App from './App';
 import {Provider} from "react-redux";
 import configureStore, {history} from "./store/configureStore";
 import "./index.css"
 import {Auth0Provider} from "./auth0/react-auth0-spa";
 import config from "./auth_config.json";
+import App from "./components/App";
 
 const store = configureStore();
 
@@ -33,7 +33,7 @@ const onAuthRedirectCallback = (redirectResult?: RedirectLoginResult) => {
         : window.location.pathname;
 
     history.push(targetUrl)
-}
+};
 
 const render = () => {
     ReactDOM.render(
@@ -50,14 +50,14 @@ const render = () => {
                 </Provider>
             </Auth0Provider>
         </AppContainer>, document.getElementById('root'));
-}
+};
 
 render();
 
 // Hot reloading
 if (module.hot) {
     // Reload components
-    module.hot.accept('./App', () => {
+    module.hot.accept('./components/App', () => {
         render()
     })
 }

@@ -1,7 +1,7 @@
 import {createPost, loadPosts, postsLoaded, selectPost} from "./actions";
 import {AxiosInstance} from "axios";
-import {AppThunk} from "../AppThunk";
-import {LoadStatus} from "../LoadStatus";
+import {AppThunk} from "../util/AppThunk";
+import {LoadStatus} from "../util/LoadStatus";
 import {Post} from "./types";
 
 export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {

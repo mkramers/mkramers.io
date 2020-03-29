@@ -1,5 +1,5 @@
 import {CREATE_POST, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
-import {LoadStatus} from "../LoadStatus";
+import {LoadStatus} from "../util/LoadStatus";
 import {normalizePosts} from "./normalizePosts";
 
 const initialState: PostsState = {

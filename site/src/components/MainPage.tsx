@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import PostView from "./PostView";
 import {State} from "../store";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
-import {LoadStatus} from "../store/LoadStatus";
+import {LoadStatus} from "../store/util/LoadStatus";
 
 type MainPageProps = {
     apiInitialized: LoadStatus
