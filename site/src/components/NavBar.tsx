@@ -11,7 +11,13 @@ function NavBar() {
                 <NavbarHeading>mkramers.io</NavbarHeading>
                 <NavbarDivider/>
                 <Button className={Classes.MINIMAL} icon="home" text="Home"/>
-                <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"/>
+                {isAuthenticated &&
+                (
+                    <NavbarGroup align={Alignment.RIGHT}>
+                        <NavbarDivider/>
+                        < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"/>
+                    </NavbarGroup>
+                )}
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>
                 <div>
