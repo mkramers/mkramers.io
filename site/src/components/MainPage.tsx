@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import "./MainPage.css";
-import PostList from "./PostList";
 import {connect} from "react-redux";
 import PostView from "./PostView";
 import {State} from "../store";
@@ -33,14 +32,7 @@ function MainPage({loadPosts, apiInitialized, postsLoaded}: MainPageProps) {
 
     switch (postsLoaded) {
         case LoadStatus.SUCCESS:
-            content = <div className="page-main">
-                <div className='left-column'>
-                    <PostList/>
-                </div>
-                <div className='right-column'>
-                    <PostView/>
-                </div>
-            </div>;
+            content = <PostView/>;
             break;
         case LoadStatus.PENDING:
             content = busyContent;
@@ -57,11 +49,7 @@ function MainPage({loadPosts, apiInitialized, postsLoaded}: MainPageProps) {
             throw new Error("LoadStatus not supported");
     }
 
-    return (
-        <div className="page-main">
-            {content}
-        </div>
-    );
+    return content;
 }
 
 const mapState = (state: State) => ({
