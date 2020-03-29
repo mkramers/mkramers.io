@@ -12,13 +12,14 @@ type MainPageProps = {
 };
 
 function MainPage({apiInitialized, postsLoaded}: MainPageProps) {
-    let busyContent = <Spinner size={80}/>;
+    let busyContent = <div className="busy-indicator">
+        <Spinner size={80}/>
+    </div>;
 
     let content;
     if (apiInitialized === LoadStatus.PENDING) {
         content = busyContent;
-    }
-    else {
+    } else {
         switch (postsLoaded) {
             case LoadStatus.SUCCESS:
                 content = <PostView/>;
@@ -49,8 +50,7 @@ const mapState = (state: State) => ({
     postsLoaded: state.posts.postsLoaded
 });
 
-const mapDispatch = {
-};
+const mapDispatch = {};
 
 const connector = connect(mapState, mapDispatch);
 
