@@ -4,6 +4,8 @@ KEY=~/scripts/keys/site.pem
 HOSTNAME=ec2-3-20-251-84.us-east-2.compute.amazonaws.com
 DESTINATION=/home/ubuntu/deploy
 
+OUTPUT_DIR=$(dirname "$(readlink -f "$0")")
+
 get_docker_export_filename() {
   local DOCKER_NAME=$1
   echo "$DOCKER_NAME.tar"
@@ -12,7 +14,7 @@ get_docker_export_filename() {
 get_docker_export_path() {
   local DOCKER_NAME=$1
   DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
-  echo "./$DOCKER_EXPORT_FILENAME"
+  echo "$OUTPUT_DIR/$DOCKER_EXPORT_FILENAME"
 }
 
 build_docker() {
