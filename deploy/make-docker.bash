@@ -29,6 +29,15 @@ build_docker() {
 
   #docker build -t $DOCKER_NAME .
   docker build -t "$DOCKER_NAME" . --no-cache
+
+  popd
+}
+
+save_docker() {
+  local DOCKER_NAME=$1
+
+  local DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
+
   docker save -o "$DOCKER_EXPORT_PATH" "$DOCKER_NAME"
 
   popd
@@ -54,12 +63,14 @@ load_container() {
 API_NAME=mkramers-io-api
 
 build_docker $API_NAME ../api
+save_docker $API_NAME
 push_container $API_NAME
 load_container $API_NAME
 
 SITE_NAME=mkramers-io-site
 
 build_docker $SITE_NAME ../site
+save_docker $SITE_NAME
 push_container $SITE_NAME
 load_container $SITE_NAME
 
