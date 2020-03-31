@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
+import config from "../auth_config.json";
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
 
 export interface Auth0User extends Omit<IdToken, '__raw'> {
@@ -56,8 +57,8 @@ export const Auth0Provider = ({
 
             if (authed) {
                 const userProfile = await auth0FromHook.getUser();
-                userProfile.role = userProfile["https://demo.mkramers.io"];
-                delete userProfile["https://demo.mkramers.io"];
+                userProfile.role = userProfile[config.roleUrl];
+                delete userProfile[config.roleUrl];
 
                 setIsAuthenticated(true);
                 setUser(userProfile)

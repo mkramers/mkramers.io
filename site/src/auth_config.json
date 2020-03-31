@@ -1,5 +1,6 @@
 {
   "domain": "mkramers-io.auth0.com",
   "clientId": "xjDTb25Ng2Wx7RqWrfuiJESu4B4luwSF",
+  "roleUrl": "https://demo.mkramers.io",
   "audience": "api.mkramers.io"
 }
