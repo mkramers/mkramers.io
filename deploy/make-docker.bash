@@ -44,24 +44,24 @@ load_container() {
   ssh -i $KEY ubuntu@$HOSTNAME "docker load -i $DESTINATION/$DOCKER_EXPORT_FILENAME"
 }
 
-pushd ../api
 
 DOCKER_NAME=mkramers-io-api
 
+pushd ../api
 build_docker $DOCKER_NAME
+popd
+
 push_container $DOCKER_NAME
 load_container $DOCKER_NAME
 
-popd
-
-pushd ../site
 
 DOCKER_NAME=mkramers-io-site
 
+pushd ../site
 build_docker $DOCKER_NAME
+popd
+
 push_container $DOCKER_NAME
 load_container $DOCKER_NAME
-
-popd
 
 scp -i $KEY ./docker-compose.yml ubuntu@$HOSTNAME:$DESTINATION/
