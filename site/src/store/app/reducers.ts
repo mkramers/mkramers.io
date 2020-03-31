@@ -11,11 +11,11 @@ export function appReducer(
     state = initialState,
     action: AppActionTypes
 ): AppState {
+    let apiUrl = process.env.REACT_APP_API_URL;
     switch (action.type) {
         case INIT_API:
             const api = axios.create({
-                baseURL: 'https://demo.mkramers.io:4000',
-                // baseURL: 'http://localhost:5000',
+                baseURL: apiUrl,
                 headers: {
                     Authorization: `Bearer ${action.token}`
                 },
