@@ -2,10 +2,6 @@ import React, { useState, useEffect, useContext } from 'react'
 import createAuth0Client from '@auth0/auth0-spa-js'
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client'
 
-export interface Auth0RedirectState {
-    targetUrl?: string
-}
-
 export interface Auth0User extends Omit<IdToken, '__raw'> {
     [prop: string]: any
 }
@@ -28,26 +24,26 @@ interface Auth0ProviderOptions {
     onRedirectCallback(result: RedirectLoginResult): void
 }
 
-export const Auth0Context = React.createContext<Auth0Context | null>(null)
-export const useAuth0 = () => useContext(Auth0Context)!
+export const Auth0Context = React.createContext<Auth0Context | null>(null);
+export const useAuth0 = () => useContext(Auth0Context)!;
 export const Auth0Provider = ({
                                   children,
                                   onRedirectCallback,
                                   ...initOptions
                               }: Auth0ProviderOptions & Auth0ClientOptions) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [isInitializing, setIsInitializing] = useState(true)
-    const [isPopupOpen, setIsPopupOpen] = useState(false)
-    const [user, setUser] = useState<Auth0User>()
-    const [auth0Client, setAuth0Client] = useState<Auth0Client>()
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isInitializing, setIsInitializing] = useState(true);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [user, setUser] = useState<Auth0User>();
+    const [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
     useEffect(() => {
         const initAuth0 = async () => {
-            const auth0FromHook = await createAuth0Client(initOptions)
-            setAuth0Client(auth0FromHook)
+            const auth0FromHook = await createAuth0Client(initOptions);
+            setAuth0Client(auth0FromHook);
 
             if (window.location.search.includes('code=')) {
-                let appState: RedirectLoginResult = {}
+                let appState: RedirectLoginResult = {};
                 try {
                     ({ appState } = await auth0FromHook.handleRedirectCallback())
                 }
@@ -56,27 +52,27 @@ export const Auth0Provider = ({
                 }
             }
 
-            const authed = await auth0FromHook.isAuthenticated()
+            const authed = await auth0FromHook.isAuthenticated();
 
             if (authed) {
                 const userProfile = await auth0FromHook.getUser();
                 userProfile.role = userProfile["https://demo.mkramers.io"];
                 delete userProfile["https://demo.mkramers.io"];
 
-                setIsAuthenticated(true)
+                setIsAuthenticated(true);
                 setUser(userProfile)
             }
 
             setIsInitializing(false)
-        }
+        };
 
         initAuth0()
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
 
     const loginWithPopup = async (options?: PopupLoginOptions) => {
-        setIsPopupOpen(true)
+        setIsPopupOpen(true);
 
         try {
             await auth0Client!.loginWithPopup(options)
@@ -86,38 +82,38 @@ export const Auth0Provider = ({
             setIsPopupOpen(false)
         }
 
-        const userProfile = await auth0Client!.getUser()
-        setUser(userProfile)
+        const userProfile = await auth0Client!.getUser();
+        setUser(userProfile);
         setIsAuthenticated(true)
-    }
+    };
 
     const handleRedirectCallback = async () => {
-        setIsInitializing(true)
+        setIsInitializing(true);
 
-        const result = await auth0Client!.handleRedirectCallback()
-        const userProfile = await auth0Client!.getUser()
+        const result = await auth0Client!.handleRedirectCallback();
+        const userProfile = await auth0Client!.getUser();
 
-        setIsInitializing(false)
-        setIsAuthenticated(true)
-        setUser(userProfile)
+        setIsInitializing(false);
+        setIsAuthenticated(true);
+        setUser(userProfile);
 
         return result
-    }
+    };
 
     const loginWithRedirect = (options?: RedirectLoginOptions) =>
-        auth0Client!.loginWithRedirect(options)
+        auth0Client!.loginWithRedirect(options);
 
     const getTokenSilently = (options?: GetTokenSilentlyOptions) =>
-        auth0Client!.getTokenSilently(options)
+        auth0Client!.getTokenSilently(options);
 
     const logout = (options?: LogoutOptions) =>
-        auth0Client!.logout(options)
+        auth0Client!.logout(options);
 
     const getIdTokenClaims = (options?: getIdTokenClaimsOptions) =>
-        auth0Client!.getIdTokenClaims(options)
+        auth0Client!.getIdTokenClaims(options);
 
     const getTokenWithPopup = (options?: GetTokenWithPopupOptions) =>
-        auth0Client!.getTokenWithPopup(options)
+        auth0Client!.getTokenWithPopup(options);
 
     return (
         <Auth0Context.Provider

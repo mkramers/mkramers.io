@@ -91,8 +91,7 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
     }`
     });
 
-    let createPost = result.data.data.createPost.post;
-    return createPost;
+    return result.data.data.createPost.post;
 }
 
 

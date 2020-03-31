@@ -10,6 +10,6 @@ const routes = (
         <Route exact path="/create" component={CreatePost}/>
         <Route exact path="/editPosts" component={PostsEditor}/>
     </Switch>
-)
+);
 
 export default routes

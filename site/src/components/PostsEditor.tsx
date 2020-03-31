@@ -76,7 +76,7 @@ function PostsEditor({posts, deletePosts}: PostsEditorProps) {
     return (
         <div className="posts-table">
             <Styles>
-                <Table data={data} columns={columns} deleteRows={deletePosts}></Table>
+                <Table data={data} columns={columns} deleteRows={deletePosts}/>
             </Styles>
         </div>
     );
