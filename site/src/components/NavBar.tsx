@@ -4,6 +4,7 @@ import {useAuth0} from "../auth0/react-auth0-spa";
 import {connect} from "react-redux";
 import {push} from 'connected-react-router'
 import Can from "./Can";
+import {POSTS_CREATE, POSTS_DELETE} from "../AuthRules";
 
 type NavBar = {
     goHome: () => void,
@@ -19,28 +20,33 @@ function NavBar({goHome, createPost, editPosts}: NavBar) {
         role = user["https://demo.mkramers.io"];
     }
 
+    let createPostsButton = <Can
+        action={POSTS_CREATE}
+        role={role}
+        yes={() =>
+            <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
+                    onClick={createPost}/>}
+    />;
+
+    let editPostsButton = <Can
+        action={POSTS_DELETE}
+        role={role}
+        yes={() =>
+            <Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
+                    onClick={editPosts}/>}
+    />;
+
     return (
         <Navbar>
             <NavbarGroup align={Alignment.LEFT}>
                 <NavbarHeading><a onClick={() => goHome()}>mkramers.io</a></NavbarHeading>
-                {isAuthenticated &&
-                (
-                    <Can
-                        action="posts:create"
-                        role={role}
-                        yes={() =>
-                            <>
-                                <NavbarDivider/>
-                                <NavbarGroup align={Alignment.RIGHT}>
-                                    <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
-                                             onClick={createPost}/>
-                                    <Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
-                                             onClick={editPosts}/>
-                                </NavbarGroup>
-                            </>
-                        }
-                        no={() => ""}/>
-                )}
+                <>
+                    <NavbarDivider/>
+                    <NavbarGroup>
+                        {createPostsButton}
+                        {editPostsButton}
+                    </NavbarGroup>
+                </>
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>
                 <div>

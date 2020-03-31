@@ -5,7 +5,7 @@ type CanProps = {
     action: string
     data?: any
     yes: () => any,
-    no: () => any,
+    no?: () => any,
 };
 
 const check = (rules: any, role: string, action: string, data: any) => {
