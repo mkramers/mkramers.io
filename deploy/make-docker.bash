@@ -51,16 +51,16 @@ load_container() {
 }
 
 
-DOCKER_NAME=mkramers-io-api
+API_NAME=mkramers-io-api
 
-build_docker $DOCKER_NAME ../api
-push_container $DOCKER_NAME
-load_container $DOCKER_NAME
+build_docker $API_NAME ../api
+push_container $API_NAME
+load_container $API_NAME
 
-DOCKER_NAME=mkramers-io-site
+SITE_NAME=mkramers-io-site
 
-build_docker $DOCKER_NAME ../site
-push_container $DOCKER_NAME
-load_container $DOCKER_NAME
+build_docker $SITE_NAME ../site
+push_container $SITE_NAME
+load_container $SITE_NAME
 
 scp -i $KEY ./docker-compose.yml ubuntu@$HOSTNAME:$DESTINATION/
