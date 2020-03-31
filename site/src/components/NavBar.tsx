@@ -3,6 +3,7 @@ import React from "react";
 import {useAuth0} from "../auth0/react-auth0-spa";
 import {connect} from "react-redux";
 import {push} from 'connected-react-router'
+import Can from "./Can";
 
 type NavBar = {
     goHome: () => void,
@@ -11,7 +12,12 @@ type NavBar = {
 };
 
 function NavBar({goHome, createPost, editPosts}: NavBar) {
-    const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
+    const {isAuthenticated, loginWithRedirect, logout, user} = useAuth0();
+
+    let role = null;
+    if (user) {
+        role = user["https://demo.mkramers.io"];
+    }
 
     return (
         <Navbar>
@@ -19,15 +25,21 @@ function NavBar({goHome, createPost, editPosts}: NavBar) {
                 <NavbarHeading><a onClick={() => goHome()}>mkramers.io</a></NavbarHeading>
                 {isAuthenticated &&
                 (
-                    <>
-                    <NavbarDivider/>
-                    <NavbarGroup align={Alignment.RIGHT}>
-                        < Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
-                                 onClick={createPost}/>
-                        < Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
-                                 onClick={editPosts}/>
-                    </NavbarGroup>
-                    </>
+                    <Can
+                        action="posts:create"
+                        role={role}
+                        yes={() =>
+                            <>
+                                <NavbarDivider/>
+                                <NavbarGroup align={Alignment.RIGHT}>
+                                    <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
+                                             onClick={createPost}/>
+                                    <Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
+                                             onClick={editPosts}/>
+                                </NavbarGroup>
+                            </>
+                        }
+                        no={() => ""}/>
                 )}
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>

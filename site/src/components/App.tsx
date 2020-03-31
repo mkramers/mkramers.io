@@ -18,12 +18,13 @@ interface AppProps {
 
 function App({history, initApi, loadPosts}: AppProps) {
 
-    const {getTokenSilently, isAuthenticated, isInitializing} = useAuth0();
+    const {getTokenSilently, isAuthenticated, isInitializing, user } = useAuth0();
 
     useEffect(() => {
             if (!isInitializing) {
                 if (isAuthenticated) {
                     getTokenSilently().then((token) => {
+                        console.log("USER:\n", JSON.stringify(user, null, 2));
                         initApi(token);
                         loadPosts();
                     });
