@@ -1,37 +1,46 @@
-type  TS = {
-    userId: string
-    postOwnerId: string
+let joinRule = (base: string, action: string) => {
+    return base + ":" + action;
+};
+
+const CREATE = "CREATE";
+const READ = "READ";
+const UPDATE = "UPDATE";
+const DELETE = "DELETE";
+
+const POSTS = "POSTS";
+
+export const POSTS_CREATE = joinRule(POSTS, CREATE);
+export const POSTS_READ = joinRule(POSTS, READ);
+export const POSTS_UPDATE = joinRule(POSTS, UPDATE);
+export const POSTS_DELETE = joinRule(POSTS, DELETE);
+
+let allowPostAction = (userId: string, postOwnerId: string) => {
+    if (!userId || !postOwnerId) return false;
+    return userId === postOwnerId;
 };
 
 const AuthRules = {
     visitor: {
-        static: ["posts:list", "home-page:visit"]
+        static: [
+            POSTS_READ,
+        ]
     },
     writer: {
         static: [
-            "posts:list",
-            "posts:create",
-            "users:getSelf",
-            "home-page:visit",
-            "dashboard-page:visit"
+            POSTS_READ,
+            POSTS_CREATE,
         ],
         dynamic: {
-            "posts:edit": ({userId, postOwnerId}: TS) => {
-                if (!userId || !postOwnerId) return false;
-                return userId === postOwnerId;
-            }
+            POSTS_UPDATE: allowPostAction,
+            POSTS_DELETE: allowPostAction,
         }
     },
     admin: {
         static: [
-            "posts:list",
-            "posts:create",
-            "posts:edit",
-            "posts:delete",
-            "users:get",
-            "users:getSelf",
-            "home-page:visit",
-            "dashboard-page:visit"
+            POSTS_CREATE,
+            POSTS_READ,
+            POSTS_UPDATE,
+            POSTS_DELETE,
         ]
     }
 };
