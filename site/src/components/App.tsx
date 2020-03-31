@@ -10,6 +10,8 @@ import "./App.css"
 import PostList from "./PostList";
 import {thunkLoadPosts} from "../store/posts/thunks";
 
+require('dotenv').config();
+
 interface AppProps {
     history: History;
     initApi: (token: string | undefined) => void,
@@ -17,6 +19,7 @@ interface AppProps {
 }
 
 function App({history, initApi, loadPosts}: AppProps) {
+    console.log("PROCESS ENV:", JSON.stringify(process.env, null, 2));
 
     const {getTokenSilently, isAuthenticated, isInitializing, user } = useAuth0();
 
