@@ -13,7 +13,7 @@ get_docker_export_filename() {
 
 get_docker_export_path() {
   local DOCKER_NAME=$1
-  DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
+  local DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
   echo "$OUTPUT_DIR/$DOCKER_EXPORT_FILENAME"
 }
 
@@ -21,7 +21,7 @@ build_docker() {
   local DOCKER_NAME=$1
   local WORKING_DIR=$2
 
-  DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
+  local DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
 
   pushd "$WORKING_DIR"
 
@@ -36,16 +36,16 @@ build_docker() {
 
 push_container() {
   local DOCKER_NAME=$1
-  DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
-  DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
+  local DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
+  local DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
 
   scp -i $KEY "$DOCKER_EXPORT_PATH" ubuntu@$HOSTNAME:$DESTINATION/
 }
 
 load_container() {
   local DOCKER_NAME=$1
-  DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
-  DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
+  local DOCKER_EXPORT_FILENAME=$(get_docker_export_filename "$DOCKER_NAME")
+  local DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
 
   ssh -i $KEY ubuntu@$HOSTNAME "docker load -i $DESTINATION/$DOCKER_EXPORT_FILENAME"
 }
