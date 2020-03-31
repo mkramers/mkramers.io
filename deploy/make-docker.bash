@@ -19,13 +19,19 @@ get_docker_export_path() {
 
 build_docker() {
   local DOCKER_NAME=$1
+  local WORKING_DIR=$2
+
   DOCKER_EXPORT_PATH=$(get_docker_export_path "$DOCKER_NAME")
+
+  pushd "$WORKING_DIR"
 
   npm run build
 
   #docker build -t $DOCKER_NAME .
   docker build -t "$DOCKER_NAME" . --no-cache
   docker save -o "$DOCKER_EXPORT_PATH" "$DOCKER_NAME"
+
+  popd
 }
 
 push_container() {
@@ -47,20 +53,13 @@ load_container() {
 
 DOCKER_NAME=mkramers-io-api
 
-pushd ../api
-build_docker $DOCKER_NAME
-popd
-
+build_docker $DOCKER_NAME ../api
 push_container $DOCKER_NAME
 load_container $DOCKER_NAME
 
-
 DOCKER_NAME=mkramers-io-site
 
-pushd ../site
-build_docker $DOCKER_NAME
-popd
-
+build_docker $DOCKER_NAME ../site
 push_container $DOCKER_NAME
 load_container $DOCKER_NAME
 
