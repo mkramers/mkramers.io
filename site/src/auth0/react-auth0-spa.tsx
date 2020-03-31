@@ -59,7 +59,9 @@ export const Auth0Provider = ({
             const authed = await auth0FromHook.isAuthenticated()
 
             if (authed) {
-                const userProfile = await auth0FromHook.getUser()
+                const userProfile = await auth0FromHook.getUser();
+                userProfile.role = userProfile["https://demo.mkramers.io"];
+                delete userProfile["https://demo.mkramers.io"];
 
                 setIsAuthenticated(true)
                 setUser(userProfile)

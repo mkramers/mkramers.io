@@ -1,10 +1,10 @@
 import {Alignment, Button, Classes, Navbar, NavbarDivider, NavbarGroup, NavbarHeading} from "@blueprintjs/core";
 import React from "react";
-import {useAuth0} from "../auth0/react-auth0-spa";
 import {connect} from "react-redux";
 import {push} from 'connected-react-router'
 import Can from "./Can";
 import {POSTS_CREATE, POSTS_DELETE} from "../AuthRules";
+import {useAuth0} from "../auth0/react-auth0-spa";
 
 type NavBar = {
     goHome: () => void,
@@ -13,16 +13,10 @@ type NavBar = {
 };
 
 function NavBar({goHome, createPost, editPosts}: NavBar) {
-    const {isAuthenticated, loginWithRedirect, logout, user} = useAuth0();
-
-    let role = null;
-    if (user) {
-        role = user["https://demo.mkramers.io"];
-    }
+    const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
     let createPostsButton = <Can
         action={POSTS_CREATE}
-        role={role}
         yes={() =>
             <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
                     onClick={createPost}/>}
@@ -30,7 +24,6 @@ function NavBar({goHome, createPost, editPosts}: NavBar) {
 
     let editPostsButton = <Can
         action={POSTS_DELETE}
-        role={role}
         yes={() =>
             <Button className={Classes.MINIMAL} icon="edit" text="Edit Posts"
                     onClick={editPosts}/>}

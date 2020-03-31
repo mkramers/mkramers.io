@@ -1,14 +1,18 @@
 import rules from "../AuthRules";
+import {useAuth0} from "../auth0/react-auth0-spa";
 
 type CanProps = {
-    role: string
     action: string
     data?: any
     yes: () => any,
     no?: () => any,
 };
 
-const check = (rules: any, role: string, action: string, data: any) => {
+const check = (rules: any, role: string | null, action: string, data: any) => {
+    if (!role) {
+        return false;
+    }
+
     const permissions: any = rules[role];
     if (!permissions) {
         // role is not present in the rules
@@ -36,9 +40,12 @@ const check = (rules: any, role: string, action: string, data: any) => {
     return false;
 };
 
-const Can = ({role, action, data, yes = () => null, no = () => null}: CanProps) =>
-    check(rules, role, action, data)
+function Can({action, data, yes = () => null, no = () => null}: CanProps) {
+    const {user} = useAuth0();
+
+    return check(rules, user?.role, action, data)
         ? yes()
         : no();
+}
 
 export default Can;
