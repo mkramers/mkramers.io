@@ -1,7 +1,7 @@
 import React from 'react';
 import "./MainPage.css";
 import {connect} from "react-redux";
-import PostView from "./PostView";
+import PostsView from "./PostsView";
 import {State} from "../store";
 import {NonIdealState, Spinner} from "@blueprintjs/core";
 import {LoadStatus} from "../store/util/LoadStatus";
@@ -22,7 +22,7 @@ function MainPage({apiInitialized, postsLoaded}: MainPageProps) {
     } else {
         switch (postsLoaded) {
             case LoadStatus.SUCCESS:
-                content = <PostView/>;
+                content = <PostsView/>;
                 break;
             case LoadStatus.PENDING:
                 content = busyContent;
