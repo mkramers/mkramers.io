@@ -31,7 +31,7 @@ function PostViewById({postsById}: PostViewByIdProps) {
             <div>Invalid post ID</div>
         );
     }
-    console.log("RENDER POST: ", post)
+
     return (
       <PostView post={post}/>
     );
