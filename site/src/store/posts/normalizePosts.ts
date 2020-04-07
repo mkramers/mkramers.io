@@ -23,11 +23,14 @@ export const normalizeResponse = <T>(
     return normalize(responseData, schema);
 };
 
-export function denormalizePosts(normalizedPosts: NormalizedObjects<Post>) : Post[] {
+export function denormalizeAllPosts(normalizedPosts: NormalizedObjects<Post>): { [key: string]: Post } {
     let {byId, allIds: result} = normalizedPosts;
+    let denormalizedPosts = denormalizePosts(byId, result);
+    return denormalizedPosts;
+}
+
+export function denormalizePosts(byId: { [key: string]: Post}, result: number[]): { [key: string]: Post } {
     let entities = {posts: byId};
     let denormalizedPosts = denormalize(result, postsSchema, entities);
-
-    let ids = Object.keys(denormalizedPosts);
-    return ids.map(id => denormalizedPosts[id]);
+    return denormalizedPosts;
 }
