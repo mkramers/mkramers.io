@@ -19,8 +19,6 @@ function PostView({post, viewPost}: PostViewProps) {
         />
     }
 
-    console.log("POST", post);
-
     let getPostChildrenViews = post.children.map((childPost, index) => <PostView post={childPost} key={index} viewPost={viewPost}/>);
 
     let contentElement = getReactFromMarkdown(post.content);
