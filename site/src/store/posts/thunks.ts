@@ -1,9 +1,10 @@
-import {createPost, deletePostsById, loadPosts, postsLoaded} from "./actions";
+import {createPost, deletePostsById, loadPosts, postsLoaded, selectPost} from "./actions";
 import {AxiosInstance} from "axios";
 import {AppThunk} from "../util/AppThunk";
 import {LoadStatus} from "../util/LoadStatus";
 import {Post} from "./types";
 import {listToTree} from "../../util/listToTree";
+import {push} from "connected-react-router";
 
 export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     dispatch(postsLoaded(LoadStatus.PENDING));
@@ -60,6 +61,11 @@ async function loadPostsApi(api: AxiosInstance | undefined) {
     return Promise.resolve(postsTree);
 }
 
+export const selectPostThunk = (postId: number): AppThunk => async (dispatch) => {
+    dispatch(push(`/post/${postId}`));
+
+    dispatch(selectPost(postId));
+}
 
 export const createPostThunk = (post: Post): AppThunk => async (dispatch, getState) => {
     let api = getState().app.api;

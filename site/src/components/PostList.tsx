@@ -2,21 +2,20 @@ import React, {useEffect, useState} from 'react';
 import {Classes, IconName, ITreeNode, Tree} from "@blueprintjs/core";
 import {connect} from "react-redux";
 import {State} from "../store";
-import {selectPost} from "../store/posts/actions";
 import {Post} from "../store/posts/types";
 import {postsSelector} from "../store/posts/selectors";
+import {selectPostThunk} from "../store/posts/thunks";
 
 type PostListProps = {
     posts: Post[],
-    selectPost: (id: number) => void,
+    selectPost: (postId: number) => void,
     selectedPostId: number | undefined
 };
 
 let transformPosts = (posts: Post[], selectedPostId: number | undefined) => {
     let postNodes = posts.map((post: Post) => getRootPostTreeNode(post));
 
-    console.log(selectedPostId);
-    // postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
+    postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
 
     return postNodes
 };
@@ -97,7 +96,7 @@ const mapState = (state: State) => ({
 });
 
 const mapDispatch = {
-    selectPost: (id: number) => selectPost(id)
+    selectPost: (postId: number) => selectPostThunk(postId)
 };
 
 const connector = connect(mapState, mapDispatch);
