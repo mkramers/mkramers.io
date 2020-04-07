@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS posts;
 
 CREATE TABLE users
 (
@@ -7,6 +6,7 @@ CREATE TABLE users
     auth0   TEXT UNIQUE
 );
 
+DROP TABLE IF EXISTS posts;
 CREATE TABLE posts
 (
     id             SERIAL PRIMARY KEY,
@@ -20,7 +20,7 @@ CREATE TABLE posts
 
 INSERT INTO posts (parent_id, author_user_id, label, secondaryLabel, icon,
                    content)
-VALUES (NULL, 1, 'Blogs', NULL, 'document-open', NULL);
+VALUES (NULL, 1, 'Blogs', NULL, 'document-open', 'Hello blogs');
 INSERT INTO posts (parent_id, author_user_id, label, secondaryLabel, icon,
                    content)
 VALUES (1, 1, 'Article 1', 'This is the post', 'document', 'Hello ltree');

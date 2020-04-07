@@ -19,6 +19,8 @@ function PostView({post, viewPost}: PostViewProps) {
         />
     }
 
+    let getPostChildrenViews = post.children.map((childPost, index) => <PostView post={childPost} key={index} viewPost={viewPost}/>);
+
     let contentElement = getReactFromMarkdown(post.content);
 
     return (
@@ -26,6 +28,7 @@ function PostView({post, viewPost}: PostViewProps) {
             <Card interactive={false} elevation={Elevation.TWO}>
                 <Button onClick={() => viewPost(post.id)}>{post.label}</Button>
                 {contentElement}
+                {getPostChildrenViews}
             </Card>
         </div>
     );
