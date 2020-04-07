@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {State} from "../store";
 import {selectPost} from "../store/posts/actions";
 import {Post} from "../store/posts/types";
+import {postsSelector} from "../store/posts/selectors";
 
 type PostListProps = {
     posts: Post[],
@@ -12,28 +13,30 @@ type PostListProps = {
 };
 
 let transformPosts = (posts: Post[], selectedPostId: number | undefined) => {
-    let postNodes = posts.map((post) => getPostNode(post));
+    let postNodes = posts.map((post: Post) => getRootPostTreeNode(post));
 
-    postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
+    console.log(selectedPostId);
+    // postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
 
-    const state: ITreeNode[] = [
-        {
-            id: 0,
-            hasCaret: true,
-            isExpanded: true,
-            icon: "folder-close",
-            label: "Blogs",
-            childNodes: postNodes
-        }
-    ];
-    return state;
+    return postNodes
 };
 
-let getPostNode = (post: Post) => {
+let getRootPostTreeNode = (post: Post) => {
+    let childNodes = post.children.map(childPost => {
+        return getRootPostTreeNode(childPost)
+    });
+
     let postTreeNode: ITreeNode = {
-        id: post.postId,
+        childNodes,
+        disabled: false,
+        hasCaret: false,
         icon: "document",
-        label: post.title
+        id: post.id,
+        isExpanded: true,
+        isSelected: false,
+        label: post.label,
+        secondaryLabel: post.secondaryLabel,
+        nodeData: post.content
     };
     return postTreeNode;
 };
@@ -89,7 +92,7 @@ function PostList({posts, selectedPostId, selectPost}: PostListProps) {
 }
 
 const mapState = (state: State) => ({
-    posts: state.posts.posts.allIds.map(id => state.posts.posts.byId[id]),
+    posts: postsSelector(state),
     selectedPostId: state.posts.selectedPostId
 });
 

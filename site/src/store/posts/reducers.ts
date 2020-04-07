@@ -19,6 +19,7 @@ export function postsReducer(
                 ...state,
                 posts: normalizedPosts
             };
+            return state;
         case POSTED_LOADED:
             return {
                 ...state,
@@ -37,9 +38,9 @@ export function postsReducer(
                     byId:
                         {
                             ...state.posts.byId,
-                            [post.postId]: post
+                            [post.id]: post
                         },
-                    allIds: state.posts.allIds.concat(post.postId)
+                    allIds: state.posts.allIds.concat(post.id)
                 }
             };
         case DELETE_POSTS_BY_ID:

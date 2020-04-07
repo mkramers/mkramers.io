@@ -11,14 +11,22 @@ type CreatePostProps = {
 };
 
 function CreatePost({createPost}: CreatePostProps) {
-    const [title, setTitle] = useState<string>("");
+    const [label, setLabel] = useState<string>("");
     const [content, setContent] = useState<string>("");
 
     let handleSubmit = () => {
         let post = {
-            postId: 666,
+            id: 666,
+            parentId: 1,
+            children: [],
             authorUserId: 1,
-            title,
+            label,
+            secondaryLabel : "",
+            hasCaret: false,
+            isExpanded: false,
+            isSelected: false,
+            disabled: false,
+            icon: "document",
             content,
         };
         createPost(post);
@@ -28,9 +36,9 @@ function CreatePost({createPost}: CreatePostProps) {
         <Card interactive={true} elevation={Elevation.TWO} className="main">
             <h5>Create post</h5>
             <InputGroup
-                onChange={(e: any) => setTitle(e.target.value)}
+                onChange={(e: any) => setLabel(e.target.value)}
                 placeholder="Title"
-                value={title}
+                value={label}
             />
             <TextArea
                 className="text-area"

@@ -16,7 +16,7 @@ function PostsView({posts}: PostsViewProps) {
 
     return (
         <div>
-            {posts.map(post => <PostView post={post}/>)}
+            {posts.map((post, index) => <PostView post={post} key={index}/>)}
         </div>
     );
 }

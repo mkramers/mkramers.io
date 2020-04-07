@@ -1,8 +1,9 @@
-import {createPost, deletePostsById, loadPosts, postsLoaded, selectPost} from "./actions";
+import {createPost, deletePostsById, loadPosts, postsLoaded} from "./actions";
 import {AxiosInstance} from "axios";
 import {AppThunk} from "../util/AppThunk";
 import {LoadStatus} from "../util/LoadStatus";
 import {Post} from "./types";
+import {listToTree} from "../../util/listToTree";
 
 export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     dispatch(postsLoaded(LoadStatus.PENDING));
@@ -21,11 +22,11 @@ export const thunkLoadPosts = (): AppThunk => async (dispatch, getState) => {
     }
 
     dispatch(loadPosts(posts));
-
-    if (posts.length > 0) {
-        let firstPost = posts[0];
-        dispatch(selectPost(firstPost.postId));
-    }
+    //
+    // if (posts.length > 0) {
+    //     let firstPost = posts[0];
+    //     dispatch(selectPost(firstPost.postId));
+    // }
     dispatch(postsLoaded(LoadStatus.SUCCESS));
 };
 
@@ -36,24 +37,27 @@ async function loadPostsApi(api: AxiosInstance | undefined) {
 
     let result = await api.post('/graphql', {
         "query": `
-    query Query {
-        allPosts {
-            edges {
-                  node {
-                        title
-                        content
-                        authorUserId
-                        postId
-                }
-            }
-        }
-    }`
+    query MyQuery {
+  allPosts {
+    nodes {
+      authorUserId
+      content
+      icon
+      id
+      label
+      parentId
+      secondarylabel
+    }
+  }
+}`
     });
 
-    let postsObject = result.data.data.allPosts.edges.map((edge: any) => edge.node);
-    let posts = Object.keys(postsObject).map(key => postsObject[key]);
-
-    return Promise.resolve(posts);
+    let postsObject = result.data.data.allPosts.nodes;
+    let postsList = postsObject.map((postsObject: any) => {
+        return postsObject as Post;
+    });
+    let postsTree = listToTree<Post>(postsList);
+    return Promise.resolve(postsTree);
 }
 
 
@@ -79,7 +83,7 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
     let result = await api.post('/graphql', {
         "query": `
         mutation MyMutation {
-           createPost(input: {post: {authorUserId: 1, title: "${post.title}", content: "${post.content}"}}) {
+           createPost(input: {post: {authorUserId: 1, title: "${post.label}", content: "${post.content}"}}) {
                clientMutationId
                post {
                   postId

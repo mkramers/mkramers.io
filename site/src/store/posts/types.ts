@@ -1,11 +1,18 @@
 import {LoadStatus} from "../util/LoadStatus";
 import {NormalizedObjects} from "../util/NormalizedObject";
 
-export interface Post {
-    postId: number,
+export interface Post extends TreeChild<Post>{
     authorUserId: number;
-    title: string;
+    label: string;
+    secondaryLabel: string;
+    icon: string;
     content: string;
+}
+
+export interface TreeChild<T> {
+    id: number,
+    parentId: number,
+    children: T[]
 }
 
 export interface PostsState {

@@ -87,7 +87,7 @@ const mapState = (state: State) => ({
 });
 
 const mapDispatch = {
-    deletePosts: (posts: Post[]) => deletePostsThunk(posts.map(post => post.postId))
+    deletePosts: (posts: Post[]) => deletePostsThunk(posts.map(post => post.id))
 };
 
 const connector = connect(mapState, mapDispatch);

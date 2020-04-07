@@ -24,7 +24,7 @@ function PostView({post, viewPost}: PostViewProps) {
     return (
         <div className="card-wrapper">
             <Card interactive={false} elevation={Elevation.TWO}>
-                <Button onClick={() => viewPost(post.postId)}>{post.title}</Button>
+                <Button onClick={() => viewPost(post.id)}>{post.label}</Button>
                 {contentElement}
             </Card>
         </div>
