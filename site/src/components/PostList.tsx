@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Classes, ITreeNode, Tree} from "@blueprintjs/core";
+import {Classes, IconName, ITreeNode, Tree} from "@blueprintjs/core";
 import {connect} from "react-redux";
 import {State} from "../store";
 import {selectPost} from "../store/posts/actions";
@@ -30,7 +30,7 @@ let getRootPostTreeNode = (post: Post) => {
         childNodes,
         disabled: false,
         hasCaret: false,
-        icon: "document",
+        icon: post.icon as IconName,
         id: post.id,
         isExpanded: true,
         isSelected: false,

@@ -23,7 +23,7 @@ INSERT INTO posts (parent_id, author_user_id, label, secondaryLabel, icon,
 VALUES (NULL, 1, 'Blogs', NULL, 'document-open', NULL);
 INSERT INTO posts (parent_id, author_user_id, label, secondaryLabel, icon,
                    content)
-VALUES (1, 1, 'Article 1', 'This is the post', 'document-open', 'Hello ltree');
+VALUES (1, 1, 'Article 1', 'This is the post', 'document', 'Hello ltree');
 INSERT INTO posts (parent_id, author_user_id, label, secondaryLabel, icon,
                    content)
-VALUES (1, 1, 'Article 2', 'This is a different post', 'document-open', 'Hello ltree?');
+VALUES (1, 1, 'Article 2', 'This is a different post', 'document', 'Hello ltree?');
