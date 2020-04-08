@@ -12,11 +12,6 @@ type PostListProps = {
     selectedPostId: number | undefined
 };
 
-let transformPosts = (posts: Post[], selectedPostId: number | undefined) => {
-    let postNodes = posts.map((post: Post) => getRootPostTreeNode(post, selectedPostId));
-    return postNodes
-};
-
 let getRootPostTreeNode = (post: Post, selectedPostId: number | undefined) => {
     let childNodes = post.children.map(childPost => {
         return getRootPostTreeNode(childPost, selectedPostId)
@@ -41,7 +36,7 @@ function PostList({posts, selectedPostId, selectPost}: PostListProps) {
     const [nodes, setNodes] = useState<ITreeNode[]>([]);
 
     useEffect(() => {
-        let nodes = transformPosts(posts, selectedPostId);
+        let nodes = posts.map((post: Post) => getRootPostTreeNode(post, selectedPostId));
         setNodes(nodes);
     }, [posts, selectedPostId]);
 
