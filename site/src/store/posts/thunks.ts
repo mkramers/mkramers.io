@@ -86,7 +86,7 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
     let result = await api.post('/graphql', {
         "query": `
         mutation MyMutation {
-           createPost(input: {post: {authorUserId: ${post.authorUserId}, parentId: ${post.parentId}, label: "${post.label}", secondarylabel: "${post.secondaryLabel}", icon: "${post.icon}", content: "${post.content}"}}) {
+           createPost(input: {post: {authorUserId: ${post.authorUserId}, parentId: ${post.parentId}, label: "${post.label}", secondarylabel: "${post.secondaryLabel}", icon: "${post.icon}", content: """${post.content}"""}}) {
                clientMutationId
                post {
                   authorUserId
