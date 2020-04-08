@@ -5,12 +5,14 @@ import {useParams} from "react-router";
 import {State} from "../store";
 import {connect} from "react-redux";
 import {denormalizePosts} from "../store/posts/normalizePosts";
+import {selectPost} from "../store/posts/actions";
 
 type PostViewByIdProps = {
-    postsById: { [key: string]: Post }
+    postsById: { [key: string]: Post };
+    selectPost: (postId: number) => void;
 }
 
-function SelectedPostView({postsById}: PostViewByIdProps) {
+function SelectedPostView({postsById, selectPost}: PostViewByIdProps) {
     const [post, setPost] = useState<Post | undefined>(undefined);
 
     let {id} = useParams();
@@ -24,6 +26,7 @@ function SelectedPostView({postsById}: PostViewByIdProps) {
         if (postsById.hasOwnProperty(postId)) {
             let posts = denormalizePosts(postsById, [postId]);
             setPost(posts[0]);
+            selectPost(posts[0].id)
         }
     }, [id]);
 
@@ -42,7 +45,9 @@ const mapState = (state: State) => ({
     postsById: state.posts.posts.byId
 });
 
-const mapDispatch = {};
+const mapDispatch = {
+    selectPost: (id: number) => selectPost(id)
+};
 
 const connector = connect(mapState, mapDispatch);
 

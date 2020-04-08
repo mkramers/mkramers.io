@@ -13,16 +13,13 @@ type PostListProps = {
 };
 
 let transformPosts = (posts: Post[], selectedPostId: number | undefined) => {
-    let postNodes = posts.map((post: Post) => getRootPostTreeNode(post));
-
-    postNodes.forEach((post: ITreeNode) => post.isSelected = post.id === selectedPostId);
-
+    let postNodes = posts.map((post: Post) => getRootPostTreeNode(post, selectedPostId));
     return postNodes
 };
 
-let getRootPostTreeNode = (post: Post) => {
+let getRootPostTreeNode = (post: Post, selectedPostId: number | undefined) => {
     let childNodes = post.children.map(childPost => {
-        return getRootPostTreeNode(childPost)
+        return getRootPostTreeNode(childPost, selectedPostId)
     });
 
     let postTreeNode: ITreeNode = {
@@ -32,7 +29,7 @@ let getRootPostTreeNode = (post: Post) => {
         icon: post.icon as IconName,
         id: post.id,
         isExpanded: true,
-        isSelected: false,
+        isSelected: post.id === selectedPostId,
         label: post.label,
         secondaryLabel: post.secondaryLabel,
         nodeData: post.content
