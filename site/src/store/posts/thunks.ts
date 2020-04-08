@@ -54,18 +54,15 @@ async function loadPostsApi(api: AxiosInstance | undefined) {
     });
 
     let postsObject = result.data.data.allPosts.nodes;
-    let postsList = postsObject.map((postsObject: any) => {
-        return postsObject as Post;
-    });
-    let postsTree = listToTree<Post>(postsList);
-    return Promise.resolve(postsTree);
+    let posts = fixRetrievedPosts(postsObject);
+    return Promise.resolve(posts);
 }
 
 export const selectPostThunk = (postId: number): AppThunk => async (dispatch) => {
     dispatch(push(`/post/${postId}`));
 
     dispatch(selectPost(postId));
-}
+};
 
 export const createPostThunk = (post: Post): AppThunk => async (dispatch, getState) => {
     let api = getState().app.api;
@@ -89,19 +86,25 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
     let result = await api.post('/graphql', {
         "query": `
         mutation MyMutation {
-           createPost(input: {post: {authorUserId: 1, title: "${post.label}", content: "${post.content}"}}) {
+           createPost(input: {post: {authorUserId: ${post.authorUserId}, parentId: ${post.parentId}, label: "${post.label}", secondarylabel: "${post.secondaryLabel}", icon: "${post.icon}", content: "${post.content}"}}) {
                clientMutationId
                post {
-                  postId
                   authorUserId
                   content
-                  title
+                  icon
+                  id
+                  label
+                  parentId
+                  secondarylabel
                }
            }
     }`
     });
 
-    return result.data.data.createPost.post;
+    let postObject = result.data.data.createPost.post;
+    postObject.children = [];
+
+    return postObject;
 }
 
 
@@ -132,4 +135,12 @@ export const deletePostsThunk = (postsIds: number[]): AppThunk => async (dispatc
     }
 
     dispatch(deletePostsById(postsIds));
+};
+
+let fixRetrievedPosts = (postsObject: Post[]) => {
+    let postsList = postsObject.map((postsObject: any) => {
+        return postsObject as Post;
+    });
+    let posts = listToTree<Post>(postsList);
+    return posts;
 };

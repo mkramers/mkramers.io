@@ -1,6 +1,17 @@
-import {CREATE_POST, DELETE_POSTS_BY_ID, LOAD_POSTS, PostActionTypes, POSTED_LOADED, PostsState, SELECT_POST} from './types'
+import {
+    CREATE_POST,
+    DELETE_POSTS_BY_ID,
+    LOAD_POSTS,
+    Post,
+    PostActionTypes,
+    POSTED_LOADED,
+    PostsState,
+    SELECT_POST
+} from './types'
 import {LoadStatus} from "../util/LoadStatus";
 import {normalizePosts} from "./normalizePosts";
+import {NormalizedObjects} from "../util/NormalizedObject";
+import produce from "immer";
 
 const initialState: PostsState = {
     posts: {byId: {}, allIds: []},
@@ -32,17 +43,15 @@ export function postsReducer(
             };
         case CREATE_POST:
             let post = action.post;
-            return {
-                ...state,
-                posts: {
-                    byId:
-                        {
-                            ...state.posts.byId,
-                            [post.id]: post
-                        },
-                    allIds: state.posts.allIds.concat(post.id)
-                }
-            };
+
+            let normalizedPost: NormalizedObjects<Post> = normalizePosts([post]);
+
+            const nextState = produce(state, (draftState: any) => {
+                draftState.posts.byId[post.id] = normalizedPost.byId[post.id];
+                draftState.posts.byId[post.parentId].children.push(post.id);
+            });
+
+            return nextState;
         case DELETE_POSTS_BY_ID:
             let postIds = action.postIds;
 

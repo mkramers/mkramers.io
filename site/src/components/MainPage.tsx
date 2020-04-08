@@ -38,11 +38,7 @@ function MainPage({apiInitialized, postsLoaded}: MainPageProps) {
         }
     }
 
-    return (
-        <div className="main">
-            {content}
-        </div>
-    );
+    return content;
 }
 
 const mapState = (state: State) => ({

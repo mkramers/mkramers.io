@@ -21,7 +21,7 @@ interface AppProps {
 function App({history, initApi, loadPosts}: AppProps) {
     console.log("PROCESS ENV:", JSON.stringify(process.env, null, 2));
 
-    const {getTokenSilently, isAuthenticated, isInitializing, user } = useAuth0();
+    const {getTokenSilently, isAuthenticated, isInitializing, user} = useAuth0();
 
     useEffect(() => {
             if (!isInitializing) {
@@ -45,7 +45,9 @@ function App({history, initApi, loadPosts}: AppProps) {
                         <PostList/>
                     </div>
                     <div className='right-column'>
-                        {routes}
+                        <div className="main">
+                            {routes}
+                        </div>
                     </div>
                 </div>
             </div>
