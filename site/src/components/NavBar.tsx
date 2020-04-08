@@ -5,21 +5,23 @@ import {push} from 'connected-react-router'
 import Can from "./Can";
 import {POSTS_CREATE, POSTS_DELETE} from "../AuthRules";
 import {useAuth0} from "../auth0/react-auth0-spa";
+import {State} from "../store";
 
 type NavBar = {
-    goHome: () => void,
-    createPost: () => void,
-    editPosts: () => void
+    goHome: () => void;
+    createPost: (parentId?: number) => void;
+    editPosts: () => void;
+    selectedPostId?: number;
 };
 
-function NavBar({goHome, createPost, editPosts}: NavBar) {
+function NavBar({goHome, createPost, editPosts, selectedPostId}: NavBar) {
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
 
     let createPostsButton = <Can
         action={POSTS_CREATE}
         yes={() =>
             <Button className={Classes.MINIMAL} icon="new-text-box" text="Create Post"
-                    onClick={createPost}/>}
+                    onClick={() => createPost(selectedPostId)}/>}
     />;
 
     let editPostsButton = <Can
@@ -54,11 +56,13 @@ function NavBar({goHome, createPost, editPosts}: NavBar) {
     );
 }
 
-const mapState = () => ({});
+const mapState = (state: State) => ({
+    selectedPostId: state.posts.selectedPostId
+});
 
 const mapDispatch = {
     goHome: () => push('/'),
-    createPost: () => push('/create'),
+    createPost: (parentId?: number) => push(`/create/${parentId}`),
     editPosts: () => push('/editPosts')
 };
 

@@ -8,7 +8,7 @@ import SelectedPostView from "../components/SelectedPostView";
 const routes = (
     <Switch>
         <Route exact path="/" component={MainPage}/>
-        <Route exact path="/create" component={CreatePost}/>
+        <Route exact path="/create/:id" component={CreatePost}/>
         <Route exact path="/editPosts" component={PostsEditor}/>
         <Route path="/post/:id" component={SelectedPostView}/>
     </Switch>

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {connect} from "react-redux";
 import "./CreatePost.css";
-import {Button, Card, Elevation, InputGroup, TextArea} from "@blueprintjs/core";
+import {Button, Card, Elevation, InputGroup, NonIdealState, TextArea} from "@blueprintjs/core";
 import {Intent} from "@blueprintjs/core/lib/esm/common/intent";
 import {createPostThunk} from "../store/posts/thunks";
 import {Post} from "../store/posts/types";
+import {useParams} from "react-router";
 
 type CreatePostProps = {
     createPost: (post: Post) => void
@@ -14,10 +15,20 @@ function CreatePost({createPost}: CreatePostProps) {
     const [label, setLabel] = useState<string>("");
     const [content, setContent] = useState<string>("");
 
+    let {id} = useParams();
+
+    if (!id || (typeof id !== "string")) {
+        return <NonIdealState
+            title="Error"
+            description={"Cannot create post of parent: " + id}/>;
+    }
+
+    let parentId: number = parseInt(id);
+
     let handleSubmit = () => {
         let post = {
             id: 666,
-            parentId: 1,
+            parentId: parentId,
             children: [],
             authorUserId: 1,
             label,
