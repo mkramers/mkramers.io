@@ -1,4 +1,4 @@
-import { createSelector } from 'reselect'
+import {createSelector} from 'reselect'
 import {State} from "../index";
 import {denormalizeAllPosts} from "./normalizePosts";
 
@@ -18,11 +18,19 @@ export const postsSelector = createSelector(
     }
 );
 
+
+export const flattenedPostsSelector = createSelector(
+    getPosts,
+    (posts) => {
+        let ids = Object.keys(posts);
+        return ids.map(id => posts[id]);
+    }
+);
+
 export const selectedPostSelector = createSelector(
     getPosts,
     selectedPostId,
-    (posts, id) =>
-    {
+    (posts, id) => {
         if (!id) {
             return undefined;
         }

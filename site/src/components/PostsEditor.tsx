@@ -6,6 +6,7 @@ import {Post} from "../store/posts/types";
 import "./PostsEditor.css"
 import Table from "./Table";
 import {deletePostsThunk} from "../store/posts/thunks";
+import {flattenedPostsSelector} from "../store/posts/selectors";
 
 PostsEditor.propTypes = {};
 
@@ -49,16 +50,20 @@ function PostsEditor({posts, deletePosts}: PostsEditorProps) {
     const columns = useMemo(
         () => [
             {
-                Header: 'PostId',
-                accessor: 'postId', // accessor is the "key" in the data
+                Header: 'Id',
+                accessor: 'id',
             },
             {
-                Header: 'Author ID',
+                Header: 'ParentId',
+                accessor: 'parentId',
+            },
+            {
+                Header: 'AuthorID',
                 accessor: 'authorUserId',
             },
             {
                 Header: 'Title',
-                accessor: 'title',
+                accessor: 'label',
             },
             {
                 Header: 'Content',
@@ -83,11 +88,11 @@ function PostsEditor({posts, deletePosts}: PostsEditorProps) {
 }
 
 const mapState = (state: State) => ({
-    posts: state.posts.posts.allIds.map(id => state.posts.posts.byId[id]),
+    posts: flattenedPostsSelector(state)
 });
 
 const mapDispatch = {
-    deletePosts: (posts: Post[]) => deletePostsThunk(posts.map(post => post.id))
+    deletePosts: (posts: Post[]) => deletePostsThunk(posts)
 };
 
 const connector = connect(mapState, mapDispatch);

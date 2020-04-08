@@ -41,7 +41,7 @@ export function postsReducer(
                 ...state,
                 selectedPostId: action.postId
             };
-        case CREATE_POST:
+        case CREATE_POST: {
             let post = action.post;
 
             let normalizedPost: NormalizedObjects<Post> = normalizePosts([post]);
@@ -52,24 +52,25 @@ export function postsReducer(
             });
 
             return nextState;
-        case DELETE_POSTS_BY_ID:
-            let postIds = action.postIds;
+        }
+        case DELETE_POSTS_BY_ID: {
+            let posts = action.posts;
 
-            const byId = {
-                ...state.posts.byId
-            };
-            postIds.forEach(postId => {
-                delete byId[postId];
+            const nextState = produce(state, (draftState: any) => {
+                posts.forEach((post: Post) => {
+                    let {id, parentId} = post;
+                    delete draftState.posts.byId[id];
+
+                    let children = draftState.posts.byId[parentId].children;
+                    const index = children.indexOf(id);
+                    if (index > -1) {
+                        children.splice(index, 1);
+                    }
+                });
             });
-            let allIds = state.posts.allIds.filter(id => !postIds.includes(id));
 
-            return {
-                ...state,
-                posts: {
-                    allIds,
-                    byId
-                }
-            };
+            return nextState;
+        }
         default:
             return state
     }

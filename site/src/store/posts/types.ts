@@ -49,7 +49,7 @@ interface CreatePostAction {
 
 interface DeletePostsByIdAction {
     type: typeof DELETE_POSTS_BY_ID
-    postIds: number[]
+    posts: Post[]
 }
 
 export type PostActionTypes = LoadPostsAction | SelectPostAction | PostsLoadedAction | CreatePostAction | DeletePostsByIdAction;

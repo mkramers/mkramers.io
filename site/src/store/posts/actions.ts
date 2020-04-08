@@ -29,9 +29,9 @@ export function createPost(post: Post): PostActionTypes {
     }
 }
 
-export function deletePostsById(postIds: number[]): PostActionTypes {
+export function deletePostsById(posts: Post[]): PostActionTypes {
     return {
         type: DELETE_POSTS_BY_ID,
-        postIds
+        posts
     }
 }

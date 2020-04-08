@@ -66,7 +66,7 @@ function Table({columns, data, deleteRows}) {
                 ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                {rows.slice(0, 10).map((row, i) => {
+                {rows.map((row, i) => {
                     prepareRow(row);
                     return (
                         <tr {...row.getRowProps()}>

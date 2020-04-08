@@ -108,14 +108,15 @@ async function createPostApi(post: Post, api: AxiosInstance | undefined) {
 }
 
 
-export const deletePostsThunk = (postsIds: number[]): AppThunk => async (dispatch, getState) => {
+export const deletePostsThunk = (posts: Post[]): AppThunk => async (dispatch, getState) => {
     let api = getState().app.api;
     if (api === undefined) {
         throw new Error("Api not initialized!");
     }
 
-    let deleteByPostIdQueries = postsIds.map(id => {
-        return `postId_${id}: deletePostByPostId(input: {postId: ${id}}) {
+    let deleteByPostIdQueries = posts.map(post => {
+        let {id} = post;
+        return `id_${id}: deletePostById(input: {id: ${id}}) {
                 clientMutationId
                 deletedPostId
             }\n`
@@ -134,7 +135,7 @@ export const deletePostsThunk = (postsIds: number[]): AppThunk => async (dispatc
         return;
     }
 
-    dispatch(deletePostsById(postsIds));
+    dispatch(deletePostsById(posts));
 };
 
 let fixRetrievedPosts = (postsObject: Post[]) => {
